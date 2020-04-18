@@ -1,0 +1,4 @@
+[submodule "dinamohammed/texmarTest"]
+	path = dinamohammed/texmarTest
+	url = git@github.com:dinamohammed/texmarTest.git
+	branch = product1
