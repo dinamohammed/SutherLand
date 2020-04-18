@@ -2,3 +2,8 @@
 	path = dinamohammed/texmarTest
 	url = git@github.com:dinamohammed/texmarTest.git
 	branch = FX
+
+[submodule "dinamohammed/texmar"]
+	path = dinamohammed/texmar
+	url = git@github.com:dinamohammed/texmarTest.git
+	branch = product1
