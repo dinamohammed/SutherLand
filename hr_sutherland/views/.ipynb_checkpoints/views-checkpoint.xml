@@ -6,13 +6,12 @@
         <field name="inherit_id" ref="hr.view_employee_form"/>
         <field name="arch" type="xml">
             <xpath expr="//page[@name='hr_settings']/group" position="after">
-                <tree>
-                    <field name="day_seperate"/>
-                    <field name="month_seperate"/>
-                    <field name="year_seperate"/>
-                </tree>
+                    <div>
+                        <field name="day_seperate" placeholder="Day..."/>
+                        <field name="month_seperate" placeholder="Month..."/>
+                        <field name="year_seperate" placeholder="Year..."/>
+                    </div>
             </xpath>
-
         </field>
     </record>
   </data>
