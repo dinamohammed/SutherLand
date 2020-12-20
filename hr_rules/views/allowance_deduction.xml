@@ -1,0 +1,121 @@
+<odoo>
+    <data>
+        <menuitem
+                id="menu_hr_template_base"
+                parent="hr.menu_human_resources_configuration"
+                name="Contract Template"
+                sequence="118"
+                groups="base.group_user"/>
+        <!-- Allowance Views-->
+        <record id="view_allowance_hr_form_field" model="ir.ui.view">
+            <field name="name">allowance.hr.form</field>
+            <field name="model">allowance.hr</field>
+            <field name="arch" type="xml">
+
+                <form string="Allowance Form">
+                    <sheet>
+                        <group>
+                            <group>
+                                <field name="name"/>
+                                <field name="code"/>
+                            </group>
+                            <group>
+                                <field name="value"/>
+                            </group>
+                        </group>
+                    </sheet>
+                    <div class="oe_chatter">
+                        <field name="message_follower_ids" widget="mail_followers"/>
+                        <field name="activity_ids" widget="mail_activity"/>
+                        <field name="message_ids" widget="mail_thread" options="{'post_refresh': 'recipients'}"/>
+                    </div>
+                </form>
+            </field>
+        </record>
+        <record id="view_allowance_hr_field_tree" model="ir.ui.view">
+            <field name="name">allowance.hr.tree</field>
+            <field name="model">allowance.hr</field>
+            <field name="arch" type="xml">
+                <tree string="Allowance Tree">
+                    <field name="name"/>
+                    <field name="code"/>
+                    <field name="value"/>
+                </tree>
+            </field>
+        </record>
+        <record id="open_module_tree_allowance_hr" model="ir.actions.act_window">
+            <field name="name">Allowances</field>
+            <field name="res_model">allowance.hr</field>
+            <field name="view_mode">tree,form</field>
+            <field name="help" type="html">
+                <p class="o_view_nocontent_smiling_face">
+                    Create a new Allowances
+                </p><p>
+                Create a new Allowances
+            </p>
+            </field>
+        </record>
+        <menuitem
+                id="menu_hr_allowance_tree"
+                action="open_module_tree_allowance_hr"
+                parent="hr_rules.menu_hr_template_base"
+                sequence="3"
+                groups="base.group_user"/>
+
+        <!--Deductions Views-->
+        <record id="view_deduction_hr_form_field" model="ir.ui.view">
+            <field name="name">deduction.hr.form</field>
+            <field name="model">deduction.hr</field>
+            <field name="arch" type="xml">
+                <form string="Deduction Form">
+                    <sheet>
+                        <group>
+                            <group>
+                                <field name="name"/>
+                                <field name="code"/>
+                            </group>
+                            <group>
+                                <field name="value"/>
+                            </group>
+                        </group>
+                    </sheet>
+                    <div class="oe_chatter">
+                        <field name="message_follower_ids" widget="mail_followers"/>
+                        <field name="activity_ids" widget="mail_activity"/>
+                        <field name="message_ids" widget="mail_thread" options="{'post_refresh': 'recipients'}"/>
+                    </div>
+                </form>
+            </field>
+        </record>
+        <record id="view_deduction_hr_field_tree" model="ir.ui.view">
+            <field name="name">deduction.hr.tree</field>
+            <field name="model">deduction.hr</field>
+            <field name="arch" type="xml">
+                <tree string="Deduction Tree">
+                    <field name="name"/>
+                    <field name="code"/>
+                    <field name="value"/>
+                </tree>
+            </field>
+        </record>
+        <record id="open_module_tree_deductions_hr" model="ir.actions.act_window">
+            <field name="name">Deductions</field>
+            <field name="res_model">deduction.hr</field>
+            <field name="view_mode">tree,form</field>
+            <field name="help" type="html">
+                <p class="o_view_nocontent_smiling_face">
+                    Create a new Deductions
+                </p><p>
+                Create a new Deduction
+            </p>
+            </field>
+        </record>
+
+        <menuitem
+                id="menu_hr_deduction_tree"
+                action="open_module_tree_deductions_hr"
+                parent="hr_rules.menu_hr_template_base"
+                sequence="4"
+                groups="base.group_user"/>
+    </data>
+</odoo>

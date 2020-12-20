@@ -1,0 +1,7 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_provin_city_mode,provin.city.mode,model_provin_city_mode,base.group_user,1,1,1,1
+access_contract_template,contract.template,model_contract_template,base.group_user,1,1,1,1
+access_allowance_hr,allowance.hr,model_allowance_hr,base.group_user,1,1,1,1
+access_deduction_hr,deduction_hr,model_deduction_hr,base.group_user,1,1,1,1
+access_hr_contract_allowance_line,hr_contract_allowance_line,model_hr_contract_allowance_line,base.group_user,1,1,1,1
+access_hr_contract_deduction_line,hr_contract_deduction_line,model_hr_contract_deduction_line,base.group_user,1,1,1,1
