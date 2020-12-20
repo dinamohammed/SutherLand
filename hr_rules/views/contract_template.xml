@@ -1,0 +1,123 @@
+<odoo>
+    <data>
+        <!-- Contract Template-->
+        <record id="view_contract_template_form_field" model="ir.ui.view">
+            <field name="name">contract.template.form</field>
+            <field name="model">contract.template</field>
+            <field name="arch" type="xml">
+                <form string="Contract Template Form">
+                    <sheet>
+                        <group>
+                            <field name="name"/>
+                            <field name="allowance_ids">
+                                <tree editable="bottom">
+                                    <field name="name"/>
+                                    <field name="code" readonly="1"/>
+                                    <field name="value" readonly="1" sum="allowance"/>
+                                </tree>
+                            </field>
+                            <field name="deduction_ids">
+                                <tree editable="bottom">
+                                    <field name="name"/>
+                                    <field name="code" readonly="1"/>
+                                    <field name="value" readonly="1" sum="deductions"/>
+                                </tree>
+                            </field>
+                        </group>
+                    </sheet>
+                    <div class="oe_chatter">
+                        <field name="message_follower_ids" widget="mail_followers"/>
+                        <field name="activity_ids" widget="mail_activity"/>
+                        <field name="message_ids" widget="mail_thread" options="{'post_refresh': 'recipients'}"/>
+                    </div>
+                </form>
+            </field>
+        </record>
+        <record id="view_contract_template_tree" model="ir.ui.view">
+            <field name="name">contract.template.tree</field>
+            <field name="model">contract.template</field>
+            <field name="arch" type="xml">
+                <tree string="Contract Template Tree">
+                    <field name="name"/>
+                </tree>
+            </field>
+        </record>
+        <record id="open_module_tree_contract_template" model="ir.actions.act_window">
+            <field name="name">Contract Template</field>
+            <field name="res_model">contract.template</field>
+            <field name="view_mode">tree,form</field>
+            <field name="help" type="html">
+                <p class="o_view_nocontent_smiling_face">
+                    Create a new Contract Template
+                </p><p>
+                Create a new Contract Template
+            </p>
+            </field>
+        </record>
+        <menuitem
+                id="menu_contract_template_tree"
+                action="open_module_tree_contract_template"
+                parent="hr_rules.menu_hr_template_base"
+                sequence="1"
+                groups="base.group_user"/>
+        <!--  Contract Edit-->
+        <record model="ir.ui.view" id="sutherland_contact_view_fields_form">
+            <field name="name">sutherland.hr.contract.fields.form</field>
+            <field name="model">hr.contract</field>
+            <field name="inherit_id" ref="hr_contract.hr_contract_view_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="/form/sheet/group/group[2]/field[@name='job_id']" position="after">
+                    <label for="contract_template_id"/>
+                    <div class="o_row">
+                        <field name="contract_template_id"/>
+                        <button name="load_template_details" string="Load Template" type    ="object" class="btn btn-warning"
+                                attrs="{'invisible':[('contract_template_id','=',False)]}" icon="fa-refresh"/>
+                    </div>
+                </xpath>
+                <xpath expr="/form/sheet/notebook/page[@name='information']" position="after">
+                    <page string="Salary Elements" name="salary_elements">
+                        <group name="main_info">
+                            <group name="allowance" string="Allowance">
+                                <field name="allowance_ids">
+                                    <tree editable="bottom">
+                                        <field name="allowance_id"/>
+                                        <field name="value" sum="allowance"/>
+                                    </tree>
+                                </field>
+                            </group>
+                            <group name="deduction" string="Deduction">
+                                <field name="deduction_ids">
+                                    <tree editable="bottom">
+                                        <field name="deduction_id"/>
+                                        <field name="value" readonly="1" sum="deductions"/>
+                                    </tree>
+                                </field>
+                            </group>
+                            <group name="static">
+                                <field name="basic"/>
+                                <field name="allowance"/>
+                                <field name="monthly_vpp"/>
+                                <field name="health_insurance"/>
+                                <field name="total_basic_allowance"/>
+                                <field name="annual_vpp"/>
+                                <field name="night_shift"/>
+                            </group>
+                        </group>
+                    </page>
+                </xpath>
+            </field>
+        </record>
+        <record id="ir_action_bulk_load_template" model="ir.actions.server">
+            <field name="name">Bulk Load Template</field>
+            <field name="type">ir.actions.server</field>
+            <field name="model_id" ref="model_hr_contract"/>
+            <field name="state">code</field>
+            <field name="code">
+                if records:
+                action = model.bulk_load_template()
+            </field>
+            <field name="binding_model_id" ref="hr_contract.model_hr_contract"/>
+            <field name="binding_view_types">list</field>
+        </record>
+    </data>
+</odoo>

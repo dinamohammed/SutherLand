@@ -1,0 +1,192 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+# 	* hr_rules
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 13.0e+e-20191013\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2020-04-21 07:16+0000\n"
+"PO-Revision-Date: 2020-04-21 09:29+0200\n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=6; plural=(n==0 ? 0 : n==1 ? 1 : n==2 ? 2 : n%100>=3 "
+"&& n%100<=10 ? 3 : n%100>=11 && n%100<=99 ? 4 : 5);\n"
+"X-Generator: Poedit 2.2.4\n"
+"Last-Translator: \n"
+"Language: ar\n"
+
+#. module: hr_rules
+#: model_terms:ir.ui.view,arch_db:hr_rules.res_config_settings_view_form_custom
+msgid "<span class=\"o_form_label\">Clearance Date</span>"
+msgstr "<span class=\"o_form_label\">تاريخ التخليص</span>"
+
+#. module: hr_rules
+#: model:ir.model.fields,field_description:hr_rules.field_hr_employee__accumlated_tax_base
+msgid "Accumlated Tax Base"
+msgstr "مجمع الوعاء الضريبي"
+
+#. module: hr_rules
+#: model:ir.model.fields,field_description:hr_rules.field_hr_employee__age
+msgid "Age"
+msgstr "العمر"
+
+#. module: hr_rules
+#: model:ir.model.fields,field_description:hr_rules.field_provin_city_mode__code
+msgid "Code"
+msgstr "كود"
+
+#. module: hr_rules
+#: model:ir.model,name:hr_rules.model_res_config_settings
+msgid "Config Settings"
+msgstr "ضبط الإعدادات"
+
+#. module: hr_rules
+#: model_terms:ir.actions.act_window,help:hr_rules.open_module_tree_provin_city
+msgid "Create a new Provin city"
+msgstr "إنشاء مركز مدينة جديدة"
+
+#. module: hr_rules
+#: model:ir.model.fields,field_description:hr_rules.field_provin_city_mode__create_uid
+msgid "Created by"
+msgstr "أنشئ بواسطة"
+
+#. module: hr_rules
+#: model:ir.model.fields,field_description:hr_rules.field_provin_city_mode__create_date
+msgid "Created on"
+msgstr "أنشئ في"
+
+#. module: hr_rules
+#: model:ir.model.fields,field_description:hr_rules.field_provin_city_mode__display_name
+msgid "Display Name"
+msgstr "الاسم المعروض"
+
+#. module: hr_rules
+#: model:ir.model,name:hr_rules.model_hr_employee
+msgid "Employee"
+msgstr "الموظف"
+
+#. module: hr_rules
+#: model:ir.model.fields,field_description:hr_rules.field_hr_employee__registration_number
+msgid "Employee Number"
+msgstr "رقم الموظف"
+
+#. module: hr_rules
+#: model:ir.model.fields,field_description:hr_rules.field_hr_payroll_structure__one_per_month
+msgid "Execute once per Month"
+msgstr "تنفيذ مرة واحدة في الشهر"
+
+#. module: hr_rules
+#: model_terms:ir.ui.view,arch_db:hr_rules.view_employee_filter_sutom_fields
+msgid "Extra Remaining Leaves"
+msgstr ""
+
+#. module: hr_rules
+#: model:ir.model.fields,field_description:hr_rules.field_provin_city_mode__id
+msgid "ID"
+msgstr ""
+
+#. module: hr_rules
+#: model:ir.model.fields,field_description:hr_rules.field_provin_city_mode____last_update
+msgid "Last Modified on"
+msgstr ""
+
+#. module: hr_rules
+#: model:ir.model.fields,field_description:hr_rules.field_provin_city_mode__write_uid
+msgid "Last Updated by"
+msgstr ""
+
+#. module: hr_rules
+#: model:ir.model.fields,field_description:hr_rules.field_provin_city_mode__write_date
+msgid "Last Updated on"
+msgstr ""
+
+#. module: hr_rules
+#: model:ir.model.fields,field_description:hr_rules.field_provin_city_mode__name
+msgid "Name"
+msgstr ""
+
+#. module: hr_rules
+#: model:ir.model.fields,field_description:hr_rules.field_hr_employee__percentage_tax
+msgid "Percentage Tax"
+msgstr "نسبة ضريبة المنح والأرباح"
+
+#. module: hr_rules
+#: model_terms:ir.ui.view,arch_db:hr_rules.view_provin_city_form_field
+msgid "Provin City Form"
+msgstr "المركز - المدينة"
+
+#. module: hr_rules
+#: model:ir.actions.act_window,name:hr_rules.open_module_tree_provin_city
+#: model:ir.ui.menu,name:hr_rules.menu_hr_department_tree
+msgid "Provin city"
+msgstr "المركز - المدينة"
+
+#. module: hr_rules
+#: model_terms:ir.ui.view,arch_db:hr_rules.view_provin_city_form_field_tree
+msgid "Provin city Tree"
+msgstr "المركز - المدينة"
+
+#. module: hr_rules
+#: model_terms:ir.ui.view,arch_db:hr_rules.view_employee_filter_sutom_fields
+msgid "Provin-City"
+msgstr "المركز - المدينة"
+
+#. module: hr_rules
+#: model:ir.model.fields,field_description:hr_rules.field_hr_employee__provin_city_id
+msgid "Province-City"
+msgstr "المركز - المدينة"
+
+#. module: hr_rules
+#: model:ir.model.fields,field_description:hr_rules.field_hr_employee__extra_remaining_leaves
+msgid "Relay Leave Balance"
+msgstr "رصيد الأجازة المرحل"
+
+#. module: hr_rules
+#: model:ir.model.fields,field_description:hr_rules.field_hr_employee__remaining_leaves
+msgid "Remaining Leaves"
+msgstr "رصيد إجازة العام الحالي"
+
+#. module: hr_rules
+#: model:ir.model,name:hr_rules.model_hr_payroll_structure
+msgid "Salary Structure"
+msgstr "هيكل الراتب"
+
+#. module: hr_rules
+#: model:ir.model.fields,field_description:hr_rules.field_hr_employee__state_id
+#: model_terms:ir.ui.view,arch_db:hr_rules.view_employee_filter_sutom_fields
+msgid "State"
+msgstr "محافظة"
+
+#. module: hr_rules
+#: model:ir.model.fields,field_description:hr_rules.field_res_config_settings__taxbase_erase_date
+msgid "Tax Base Clearance on "
+msgstr "تخليص القاعدة الضريبية على"
+
+#. module: hr_rules
+#: model_terms:ir.ui.view,arch_db:hr_rules.res_config_settings_view_form_custom
+msgid "Tax Base Config"
+msgstr ""
+
+#. module: hr_rules
+#: model_terms:ir.ui.view,arch_db:hr_rules.res_config_settings_view_form_custom
+msgid "Tax Base Date"
+msgstr "تاريخ الوعاء الضريبي"
+
+#. module: hr_rules
+#: model:ir.model.fields,help:hr_rules.field_hr_employee__remaining_leaves
+msgid ""
+"Total number of paid time off allocated to this employee, change this value "
+"to create allocation/time off request. Total based on all the time off types "
+"without overriding limit."
+msgstr ""
+"إجمالي عدد الإجازات المدفوعة المخصصة لهذا الموظف ، قم بتغيير هذه القيمة "
+"لإنشاء طلب تخصيص / إجازة. الإجمالي يعتمد على جميع أنواع الإجازات دون تجاوز "
+"الحد."
+
+#. module: hr_rules
+#: model:ir.model,name:hr_rules.model_provin_city_mode
+msgid "provin.city.mode"
+msgstr ""

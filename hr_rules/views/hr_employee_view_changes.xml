@@ -1,0 +1,65 @@
+<odoo>
+    <data>
+        <record model="ir.ui.view" id="employee_view_extra_fields_form">
+            <field name="name">hr.employee.extra.fields.form</field>
+            <field name="model">hr.employee</field>
+            <field name="inherit_id" ref="hr.view_employee_form"/>
+            <field name="priority" eval="1"/>
+            <field name="arch" type="xml">
+                <xpath expr="/form/sheet/notebook/page[@name='personal_information']/group/group/field[@name='km_home_work']" position="after">
+                    <field name="extra_remaining_leaves"/>
+                    <field name="state_id" context="{'form_view_id':%(base.view_country_state_form)d}"/>
+                </xpath>
+                <xpath expr="/form/sheet/notebook/page[@name='public']/div/div/group[2]/field[@name='coach_id']" position="before">
+                    <field name="percentage_tax" widget="percentage"/>
+                    <field name="accumlated_tax_base" readonly="True"/>
+                </xpath>
+                <xpath expr="/form/sheet/group/group[1]/field[@name='work_email']" position="after">
+                    <field name="provin_city_id"/>
+                    <!--<field name="location_type" widget="radio" options="{'horizontal': true}"/>-->
+                    <!-- <field name="insurance_type" widget="radio" options="{'horizontal': true}"/>-->
+                </xpath>
+                <!-- <xpath expr="/form/sheet/notebook/page[@name='hr_settings']/group/group[1]/field[@name='user_id']" position="after">
+                    <field name="registration_number"/>
+                </xpath>  -->
+            </field>
+        </record>
+
+        <record model="ir.ui.view" id="view_employee_filter_sutom_fields">
+            <field name="name">hr.employee.search.custom.filters</field>
+            <field name="model">hr.employee</field>
+            <field name="inherit_id" ref="hr.view_employee_filter"/>
+            <field name="priority" eval="1"/>
+            <field name="arch" type="xml">
+                <xpath expr="/search/field[@name='job_id']" position="after">
+                    <filter string="Provin-City" name="provin-city" domain="[('provin_city_id.name', '!=', '')]"/>
+                    <filter string="Extra Remaining Leaves" name="extra_remaining_leaves" domain="[('extra_remaining_leaves', '>', '0')]"/>
+                    <separator/>
+                </xpath>
+                <xpath expr="/search/group" position="inside">
+                    <filter name="state_group" string="State" domain="[]" context="{'group_by': 'state_id'}"/>
+                    <filter name="provin_city_group" string="Provin-City" domain="[]" context="{'group_by': 'provin_city_id'}"/>
+                    <filter name="extra_remaining_leaves_group" string="Extra Remaining Leaves" domain="[]" context="{'group_by': 'extra_remaining_leaves'}"/>
+                </xpath>
+                <xpath expr="/search/field[@name='job_id']" position="before">
+                    <field name="extra_remaining_leaves"/>
+                    <field name="state_id"/>
+                    <field name="provin_city_id"/>
+                </xpath>
+            </field>
+        </record>
+
+        <record model="ir.ui.view" id="employee_view_tax_base_form">
+            <field name="name">hr.employee.tax.form</field>
+            <field name="model">hr.employee</field>
+            <field name="inherit_id" ref="hr.view_employee_form"/>
+            <field name="priority" eval="1"/>
+            <field name="arch" type="xml">
+                <xpath expr="/form/sheet/notebook/page[@name='personal_information']/group/group[2]/field[@name='birthday']" position="after">
+                    <field name="age" readonly="True"/>
+                    <field name="remaining_leaves" readonly="True"/>
+                </xpath>
+            </field>
+        </record>
+    </data>
+</odoo>
