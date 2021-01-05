@@ -19,7 +19,7 @@
     'version': '0.1',
 
     # any module necessary for this one to work correctly
-    'depends': ['base','egymentors_hr','hr_rules','tags_rule','report_xlsx','hr','hr_payroll'],
+    'depends': ['base','egymentors_hr','hr_rules','tags__rule','report_xlsx','hr','hr_payroll'],
 
     # always loaded
     'data': [
