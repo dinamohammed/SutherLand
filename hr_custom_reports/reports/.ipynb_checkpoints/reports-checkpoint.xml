@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="1">
+        
+        <report
+                id="report_payslip_employee_xlsx"
+                model="hr.payslip"
+                string="Payslip Macros - Raw Data(Excel)"
+                report_type="xlsx"
+                name="hr_custom_reports.report_payslip_employee"
+                file="hr_custom_reports.report_payslip_employee"
+                attachment_use="False"
+        />
+
+    </data>
+</odoo>
