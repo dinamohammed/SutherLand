@@ -1,0 +1,293 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <template id="report_payslip_employee_pdf">
+    <t t-call="web.external_layout">
+        <t t-set="o" t-value="o.with_context(lang=lang)"/>
+        <div class="container">
+            <div class='row'>
+                <div class="col-12 text-center bg-primary text-dark">Payslip</div>
+            </div>
+            <t t-set="month" t-value="o.name[-13:]"/>
+            <div class='row'>
+                <div class="col-3 bm-2">
+                    <p>Employee Name:</p>
+                </div>
+                <div class="col-3 bm-2" t-if="o.employee_id.name">
+                    <p><span t-field="o.employee_id.name"/></p>
+                </div>
+                <div class="col-3 bm-2">
+                    <p>Month:</p>
+                </div>
+                <div class="col-3 bm-2" t-if="o.name">
+                    <p><span t-esc="month"/></p>
+                </div>
+            </div>
+            <div class='row'>
+                <div class="col-3 bm-2">
+                    <p>Employee Code:</p>
+                </div>
+                <div class="col-3 bm-2" t-if="o.employee_id.registration_number">
+                    <p><span t-field="o.employee_id.registration_number"/></p>
+                </div>
+                <div class="col-3 bm-2">
+                    <p>Bank Account:</p>
+                </div>
+                <div class="col-3 bm-2" t-if="o.employee_id.bank_account_id.bank_id.name">
+                    <p><span t-field="o.employee_id.bank_account_id.bank_id.name"/></p>
+                </div>
+            </div>
+            <div class='row'>
+                <div class="col-3 bm-2">
+                    <p>Level:</p>
+                </div>
+                <div class="col-3 bm-2" t-if="o.employee_id.level_id.code">
+                    <p><span t-field="o.employee_id.level_id.code"/></p>
+                </div>
+                <div class="col-3 bm-2">
+                    <p>Currency:</p>
+                </div>
+                <div class="col-3 bm-2" t-if="o.employee_id.bank_account_id.company_id.currency_id.name">
+                    <p><span t-field="o.employee_id.bank_account_id.company_id.currency_id.name"/></p>
+                </div>
+            </div>
+            <div class='row'>
+                <div class="col-3 bm-2">
+                    <p>Program/Department:</p>
+                </div>
+                <div class="col-3 bm-2" t-if="o.employee_id.work_location_id.name">
+                    <p><span t-field="o.employee_id.work_location_id.name"/></p>
+                </div>
+            </div>
+            <!-- The next part of the table -->
+            <div class='row'>
+                <div class="col-2 bm-2">
+                    <p>Income</p>
+                </div>
+                <div class="col-2 bm-2">
+                    <p></p>
+                </div>
+                <div class="col-2 bm-2">
+                    <p>Amount</p>
+                </div>
+                <div class="col-2 bm-2">
+                    <p>Deduction</p>
+                </div>
+                <div class="col-2 bm-2">
+                    <p></p>
+                </div>
+                <div class="col-2 bm-2">
+                    <p>Amount</p>
+                </div>
+            </div>
+            <!-- Retrieve Data -->
+            <t t-set="basic" t-value="0.0"/>
+            <t t-set="allowance" t-value="0.0"/>
+            <t t-set="mvpp" t-value="0.0"/>
+            <t t-set="totalba" t-value="0.0"/>
+            <t t-set="gross" t-value="0.0"/>
+            <t t-set="avpp" t-value="0.0"/>
+            <t t-set="swithoutvpp" t-value="0.0"/>
+            <t t-set="vpprate" t-value="0.0"/>
+            <t t-set="vppvalue" t-value="0.0"/>
+            <t t-set="saftervpp" t-value="0.0"/>
+            
+            <t t-foreach="o.line_ids" t-as="line">
+                <t t-if="line.code == 'BASIC-2'">
+                    <t t-set="basic" t-value="line.total"/>
+                </t>
+                <t t-if="line.code == 'A-0021'">
+                    <t t-set="allowance" t-value="line.total"/>
+                </t>
+                <t t-if="line.code == 'A-00311'">
+                    <t t-set="mvpp" t-value="line.total"/>
+                </t>
+                <t t-if="line.code == 'A-00111'">
+                    <t t-set="totalba" t-value="line.total"/>
+                </t>
+                <t t-if="line.code == 'A-004'">
+                    <t t-set="gross" t-value="line.total"/>
+                </t>
+                <t t-if="line.code == 'A-005'">
+                    <t t-set="avpp" t-value="line.total"/>
+                </t>
+                <t t-if="line.code == 'A-010'">
+                    <t t-set="swithoutvpp" t-value="line.total"/>
+                </t>
+                <t t-if="line.code == 'vpp'">
+                    <t t-set="vpprate" t-value="line.rate"/>
+                    <t t-set="vppvalue" t-value="line.total"/>
+                </t>
+                <t t-if="line.code == 'A-012'">
+                    <t t-set="saftervpp" t-value="line.total"/>
+                </t>
+            </t>
+            <div class='row'>
+                <div class="col-2 bm-2">
+                    <p>Basic</p>
+                </div>
+                <div class="col-2 bm-2">
+                    <p></p>
+                </div>
+                <div class="col-2 bm-2">
+                    <p><span t-esc="basic"/></p>
+                </div>
+            </div>
+            <div class='row'>
+                <div class="col-2 bm-2">
+                    <p>Allowances</p>
+                </div>
+                <div class="col-2 bm-2">
+                    <p></p>
+                </div>
+                <div class="col-2 bm-2">
+                    <p><span t-esc="allowance"/></p>
+                </div>
+            </div>
+            
+            <div class='row'>
+                <div class="col-2 bm-2">
+                    <p>Monthly VPP</p>
+                </div>
+                <div class="col-2 bm-2">
+                    <p></p>
+                </div>
+                <div class="col-2 bm-2">
+                    <p><span t-esc="mvpp"/></p>
+                </div>
+            </div>
+            
+            <div class='row'>
+                <div class="col-2 bm-2">
+                    <p>Total Basic &amp; Allowances</p>
+                </div>
+                <div class="col-2 bm-2">
+                    <p></p>
+                </div>
+                <div class="col-2 bm-2">
+                    <p><span t-esc="totalba"/></p>
+                </div>
+            </div>
+            
+            <div class='row'>
+                <div class="col-2 bm-2">
+                    <p>Productivity Bonus</p>
+                </div>
+                <div class="col-2 bm-2">
+                    <p></p>
+                </div>
+                <div class="col-2 bm-2">
+                    <p>NaN(value needed)</p>
+                </div>
+            </div>
+            
+            <div class='row'>
+                <div class="col-2 bm-2">
+                    <p>Language Bonus</p>
+                </div>
+                <div class="col-2 bm-2">
+                    <p></p>
+                </div>
+                <div class="col-2 bm-2">
+                    <p>NaN(value needed)</p>
+                </div>
+            </div>
+            
+            <div class='row'>
+                <div class="col-2 bm-2">
+                    <p>Performance Incentives</p>
+                </div>
+                <div class="col-2 bm-2">
+                    <p></p>
+                </div>
+                <div class="col-2 bm-2">
+                    <p>NaN(value needed)</p>
+                </div>
+            </div>
+            
+            <div class='row'>
+                <div class="col-2 bm-2">
+                    <p>Gross Salary</p>
+                </div>
+                <div class="col-2 bm-2">
+                    <p></p>
+                </div>
+                <div class="col-2 bm-2">
+                    <p><span t-esc="gross"/></p>
+                </div>
+            </div>
+            
+            <div class='row'>
+                <div class="col-2 bm-2">
+                    <p>Annual VPP</p>
+                </div>
+                <div class="col-2 bm-2">
+                    <p></p>
+                </div>
+                <div class="col-2 bm-2">
+                    <p><span t-esc="avpp"/></p>
+                </div>
+            </div>
+            
+            <div class='row'>
+                <div class="col-2 bm-2">
+                    <p>Nightshift Allowance</p>
+                </div>
+                <div class="col-2 bm-2">
+                    <p></p>
+                </div>
+                <div class="col-2 bm-2">
+                    <p>NaN(value needed)</p>
+                </div>
+            </div>
+            
+            <div class='row'>
+                <div class="col-2 bm-2">
+                    <p>Salary without VPP</p>
+                </div>
+                <div class="col-2 bm-2">
+                    <p></p>
+                </div>
+                <div class="col-2 bm-2">
+                    <p><span t-esc="swithoutvpp"/></p>
+                </div>
+            </div>
+            
+            <div class='row'>
+                <div class="col-2 bm-2">
+                    <p>VPP</p>
+                    <p>(Please refer to your TL)</p>
+                </div>
+                <div class="col-2 bm-2">
+                    <p><span t-esc="vpprate"/></p>
+                </div>
+                <div class="col-2 bm-2">
+                    <p><span t-esc="vppvalue"/></p>
+                </div>
+            </div>
+            
+            <div class='row'>
+                <div class="col-2 bm-2">
+                    <p>Salary After VPP</p>
+                </div>
+                <div class="col-2 bm-2">
+                    <p></p>
+                </div>
+                <div class="col-2 bm-2">
+                    <p><span t-esc="saftervpp"/></p>
+                </div>
+            </div>
+            
+            </div>
+        </t>
+    </template>
+    
+    <template id="report_payslip_employee_pdf_idd">
+        <t t-call="web.html_container">
+            <t t-foreach="docs" t-as="o">
+                <t t-set="lang" t-value="user.partner_id.lang"/>
+                <t t-call="hr_custom_reports.report_payslip_employee_pdf" t-lang="lang"/>
+            </t>
+        </t>
+    </template>
+    
+</odoo>

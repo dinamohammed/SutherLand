@@ -11,6 +11,16 @@
                 file="hr_custom_reports.report_payslip_employee"
                 attachment_use="False"
         />
+        
+        <report
+                id="report_payslip_employee_pdf_action"
+                model="hr.payslip"
+                string="Employee Payslip PDF"
+                report_type="qweb-pdf"
+                name="hr_custom_reports.report_payslip_employee_pdf_idd"
+                file="hr_custom_reports.report_payslip_employee_pdf_idd"
+                attachment_use="False"
+        />
 
     </data>
 </odoo>

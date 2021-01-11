@@ -24,8 +24,7 @@
     # always loaded
     'data': [
         # 'security/ir.model.access.csv',
-        'views/views.xml',
-        'views/templates.xml',
+        'reports/report_payslip_employee_pdf.xml',
         'reports/reports.xml',
     ],
 }
