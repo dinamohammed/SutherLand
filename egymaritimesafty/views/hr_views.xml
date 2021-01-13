@@ -1,0 +1,310 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+        <!--Form View-->
+        <record id="view_hr_traing_subject_form" model="ir.ui.view">
+            <field name="name">hr.training.subject</field>
+            <field name="model">hr.training.subject</field>
+            <field name="arch" type="xml">
+                <form string="اسم التدريب">
+                    <sheet>
+                        <group>
+                            <group>
+                                <field name="name" string="اسم التدريب"/>
+                                <field name="categ_id" string="فئة التدريب"/>
+                                <separator/>
+                                <field name="training_place_id" string="مكان التدريب"/>
+                                <field name="in_comp_training_check" invisible="1"/>
+                                <field name="responsible_id" string="المدرب"/>
+                                <field name="trainer_type" string="نوع المدرب"
+                                       attrs="{'invisible':[('in_comp_training_check', '=', False)]}"/>
+                                <separator/>
+                            </group>
+                            <group>
+                                <label for="date_from" string="التاريخ"/>
+                                <div class="o_row">
+                                    <field name="date_from" widget="daterange" nolabel="1" class="oe_inline"
+                                           options="{'related_end_date': 'date_to'}"/>
+                                    <i class="fa fa-long-arrow-right mx-2" aria-label="Arrow icon" title="Arrow"/>
+                                    <field name="date_to" widget="daterange" nolabel="1" class="oe_inline"
+                                           options="{'related_start_date': 'date_from'}"/>
+                                </div>
+                                <separator/>
+                                <field name="training_type" string="نوع التدريب" widget="radio"/>
+                            </group>
+                        </group>
+                        <notebook>
+                            <pae string="المشتركون">
+                                <field name="participant_ids" string="المشتركون"/>
+                            </pae>
+                            <page string="الوصف">
+                                <field name="description" string="الوصف" nolabel="1"
+                                       placeholder="وصف التدريب...."/>
+                            </page>
+                        </notebook>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record id="view_hr_traing_place_form" model="ir.ui.view">
+            <field name="name">hr.training.place</field>
+            <field name="model">hr.training.place</field>
+            <field name="arch" type="xml">
+                <form string="مكان التدريب">
+                    <sheet>
+                        <group>
+                            <group>
+                                <field name="name" string="مكان التدريب"/>
+                                <field name="subject_id" string="التدريب"/>
+                            </group>
+                            <group>
+                                <field name="training" string="داخل/خارج الهيئة" widget="radio"/>
+                                <separator/>
+                                <field name="place_type" string="التكلفة" widget="radio"/>
+                            </group>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record id="view_hr_traing_catg_form" model="ir.ui.view">
+            <field name="name">hr.subject.catg</field>
+            <field name="model">hr.subject.catg</field>
+            <field name="arch" type="xml">
+                <form string="فئة التدريب">
+                    <sheet>
+                        <group>
+                            <group>
+                                <field name="name" string="فئة التدريب"/>
+                            </group>
+                            <group>
+                                <field name="subject_ids" string="الدورات التدريبية داخلها:" widget="one2many"/>
+                            </group>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record id="view_hr_traing_session_form" model="ir.ui.view">
+            <field name="name">hr.session</field>
+            <field name="model">hr.session</field>
+            <field name="arch" type="xml">
+                <form string="المحاضرة">
+                    <sheet>
+                        <group>
+                            <group>
+                                <field name="name" string="المحاضرة"/>
+                                <field name="subject_id" string="التدريب"/>
+                                <field name="instructor_id" string="المدرب"/>
+                                <field name="session_date" string="وقت المحاضرة"/>
+                                <field name="session_duration" string="مدة المحاضرة" class="oe_edit_only"/>
+                                <field name="session_duration_display" string="مدة المحاضرة" class="oe_read_only"/>
+                                <field name="seats" string="عدد المقعد"/>
+                            </group>
+                            <group/>
+                            <field name="attendee_ids" string="الحضور"/>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record id="view_hr_traing_evaluation_form" model="ir.ui.view">
+            <field name="name">hr.training.evaluation</field>
+            <field name="model">hr.training.evaluation</field>
+            <field name="arch" type="xml">
+                <form string="التقييم">
+                    <sheet>
+                        <group>
+                            <group>
+                                <field name="name" string="التقييم"/>
+<!--                                <field name="evaluation" string="evaluation"/>-->
+                                <field name="subject_id" string="التدريب"/>
+                                <field name="trainee_id" string="الموظف"/>
+                                <field name="grade" string="التقدير"/>
+                            </group>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <!--Tree View-->
+        <record id="view_hr_traing_subject_tree" model="ir.ui.view">
+            <field name="name">hr.training.subject</field>
+            <field name="model">hr.training.subject</field>
+            <field name="arch" type="xml">
+                <tree string="اسم الدورة التدريبية">
+                    <field name="name" string="اسم التدريب"/>
+                    <field name="categ_id" string="فئة التدريب"/>
+                    <field name="responsible_id" string="المدرب"/>
+                    <field name="training_type" string="نوع التدريب"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="view_hr_traing_place_tree" model="ir.ui.view">
+            <field name="name">hr.training.place</field>
+            <field name="model">hr.training.place</field>
+            <field name="arch" type="xml">
+                <tree string="مكان الدورة التدريبية">
+                    <field name="name" string="مكان التدريب"/>
+                    <field name="training" string="داخل/خارج الهيئة"/>
+                    <field name="subject_id" string="الدورة التدريبية"/>
+                    <field name="place_type" string="التكلفة"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="view_hr_subject_categ_tree" model="ir.ui.view">
+            <field name="name">hr.subject.catg</field>
+            <field name="model">hr.subject.catg</field>
+            <field name="arch" type="xml">
+                <tree string="مكان الدورة التدريبية">
+                    <field name="name" string="فئة التدريب"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="view_hr_session_tree" model="ir.ui.view">
+            <field name="name">hr.session</field>
+            <field name="model">hr.session</field>
+            <field name="arch" type="xml">
+                <tree string="المحاضرات">
+                    <field name="name" string="المحاضرة"/>
+                    <field name="subject_id" string="التدريب"/>
+                    <field name="instructor_id" string="المدرب"/>
+                    <field name="session_date" string="وقت المحاضرة"/>
+                    <field name="session_duration_display" string="مدة المحاضرة"/>
+                    <field name="seats" string="عدد المقعد"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="view_hr_training_evaluation_tree" model="ir.ui.view">
+            <field name="name">hr.training.evaluation</field>
+            <field name="model">hr.training.evaluation</field>
+            <field name="arch" type="xml">
+                <tree string="النقييمات">
+                    <field name="name" string="التقييم"/>
+                    <field name="subject_id" string="التدريب"/>
+                    <field name="trainee_id" string="الموظف"/>
+                    <field name="grade" string="التقدير"/>
+                </tree>
+            </field>
+        </record>
+
+        <!--Actions-->
+        <record id="open_view_training_subject" model="ir.actions.act_window">
+            <field name="name">الدورة التدريبية</field>
+            <field name="res_model">hr.training.subject</field>
+            <field name="view_mode">tree,form</field>
+            <field name="domain">[]</field>
+            <field name="context">{}</field>
+            <field name="help" type="html">
+                <p class="o_view_nocontent_smiling_face">
+                    انشئ اسم الدورة التدريبية...
+                </p>
+            </field>
+        </record>
+
+        <record id="open_view_training_place" model="ir.actions.act_window">
+            <field name="name">مكان التدريب</field>
+            <field name="res_model">hr.training.place</field>
+            <field name="view_mode">tree,form</field>
+            <field name="domain">[]</field>
+            <field name="context">{}</field>
+            <field name="help" type="html">
+                <p class="o_view_nocontent_smiling_face">
+                    انشئ مكان التدريب...
+                </p>
+            </field>
+        </record>
+
+        <record id="open_view_subject_catg" model="ir.actions.act_window">
+            <field name="name">فئة التدريب</field>
+            <field name="res_model">hr.subject.catg</field>
+            <field name="view_mode">tree,form</field>
+            <field name="domain">[]</field>
+            <field name="context">{}</field>
+            <field name="help" type="html">
+                <p class="o_view_nocontent_smiling_face">
+                    انشئ فئة التدريب...
+                </p>
+            </field>
+        </record>
+
+        <record id="open_view_hr_session" model="ir.actions.act_window">
+            <field name="name">المحاضرات</field>
+            <field name="res_model">hr.session</field>
+            <field name="view_mode">tree,form</field>
+            <field name="domain">[]</field>
+            <field name="context">{}</field>
+            <field name="help" type="html">
+                <p class="o_view_nocontent_smiling_face">
+                    انشئ محاضرة...
+                </p>
+            </field>
+        </record>
+
+        <record id="open_view_hr_training_evaluation" model="ir.actions.act_window">
+            <field name="name">التقيمات</field>
+            <field name="res_model">hr.training.evaluation</field>
+            <field name="view_mode">tree,form</field>
+            <field name="domain">[]</field>
+            <field name="context">{}</field>
+            <field name="help" type="html">
+                <p class="o_view_nocontent_smiling_face">
+                    انشئ تقييم...
+                </p>
+            </field>
+        </record>
+
+        <!--MenuItem-->
+        <menuitem
+                id="menu_hr_training"
+                name="التدريب"
+                parent="hr.menu_hr_employee_payroll"
+                sequence="6"/>
+
+        <menuitem
+                id="menu_hr_training_course"
+                name="الدورة التدريبية"
+                action="open_view_training_subject"
+                parent="menu_hr_training"
+                sequence="1"/>
+
+        <menuitem
+                id="menu_hr_training_place"
+                name="مكان التدريب"
+                action="open_view_training_place"
+                parent="menu_hr_training"
+                sequence="2"/>
+
+        <menuitem
+                id="menu_hr_subject_catg"
+                name="فئة التدريب"
+                action="open_view_subject_catg"
+                parent="menu_hr_training"
+                sequence="3"/>
+
+        <menuitem
+                id="menu_hr_sessions"
+                name="المحاضرات"
+                action="open_view_hr_session"
+                parent="menu_hr_training"
+                sequence="4"/>
+
+        <menuitem
+                id="menu_hr_training_evaluation"
+                name="التقييم"
+                action="open_view_hr_training_evaluation"
+                parent="menu_hr_training"
+                sequence="5"/>
+
+    </data>
+</odoo>
