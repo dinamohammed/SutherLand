@@ -25,7 +25,22 @@ msgstr "القسم"
 msgid "No of Employees"
 msgstr "عدد الموظفين"
 
-#. module: hr
+#. module: egymaritimesafty
 #: model:ir.model.fields.selection,name:hr.selection__hr_employee__certificate__master
 msgid "Master"
 msgstr "دراسات عليا"
+
+#. module: egymaritimesafty
+#: model:ir.model.fields.selection,name:hr.selection__hr_training_subject__training_type__course
+msgid "Course"
+msgstr "دورة تدريبية"
+
+#. module: egymaritimesafty
+#: model:ir.model.fields.selection,name:hr.selection__hr_training_subject__training_type__scholarship
+msgid "Scholarship"
+msgstr "منحة"
+
+#. module: egymaritimesafty
+#: model:ir.model.fields.selection,name:hr.selection__hr_training_subject__training_type__conference
+msgid "conference"
+msgstr "مؤتمر"

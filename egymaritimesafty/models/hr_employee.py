@@ -20,9 +20,9 @@ class TrainingSubject(models.Model):
     date_from = fields.Date(string="Start Date")
     date_to = fields.Date(string="End Date")
     training_type = fields.Selection(string="Training Type",
-                                     selection=[('course', 'دورة تدريبية'),
-                                                ('schoolarship', 'منحة'),
-                                                ('confrance', 'مؤتمر')])
+                                     selection=[('course', 'Course'),
+                                                ('scholarship', 'Scholarship'),
+                                                ('conference', 'Conference')])
     training_place_id = fields.Many2one('hr.training.place', string="Training Place")
     responsible_id = fields.Many2one('hr.employee', ondelete='set null', string="Responsible", index=True)
     in_comp_training_check = fields.Boolean(compute='_check_training_place')
@@ -77,8 +77,10 @@ class TrainingPlace(models.Model):
     training = fields.Selection(string="In or Out company",
                                 selection=[('in_company', 'داخل الهيئة'), ('out_company', 'خارج الهيئة'), ])
     subject_id = fields.Many2one('hr.training.subject', string="Course Subject", required='True')
-    place_type = fields.Selection(string="Place Type",
-                                  selection=[('paid', 'بمقابل'), ('unpaid', 'بدون مقابل')])
+    currency_id = fields.Many2one('res.currency', default=lambda self: self.env.company.currency_id.id)
+    training_cost_type = fields.Selection(string="Training Cost Type",
+                                          selection=[('paid', 'Paid'), ('unpaid', 'Unpaid')])
+    training_cost = fields.Monetary(string="Training Cost")
 
 
 class SubjectCategory(models.Model):
