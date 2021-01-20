@@ -14,13 +14,13 @@ class PayslipXlsx(models.AbstractModel):
         report_name = "Raw Data"
         # One sheet by partner
         worksheet = workbook.add_worksheet(report_name[:31])
-        format_left_to_right = workbook.add_format()
+        format_left_to_right = workbook.add_format({'reading_order': 1})
         format_left_to_right.set_reading_order(1)
 
         cell_format_left = workbook.add_format()
         cell_format_left.set_align('left')
 
-        worksheet.left_to_right()
+#         worksheet.left_to_right()
         worksheet.set_column('A:B', 15)
         worksheet.set_column('C:C', 40)
         worksheet.set_column('D:I', 15)

@@ -1,0 +1,672 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <template id="report_payslip_employee_pdf">
+    <t t-call="web.external_layout">
+        <t t-set="o" t-value="o.with_context(lang=lang)"/>
+        <div class="container">
+            <div class='row' style="border: 1px solid black;">
+                <div class="col-12 text-center bg-primary text-dark " style="font-size:14px"><strong>Payslip</strong></div>
+            </div>
+            <t t-set="month" t-value="o.name[-13:]"/>
+            <div class='row' style="font-size:10px">
+                <div class="col-3 bm-2">
+                    <p>Employee Name:</p>
+                </div>
+                <div class="col-3 bm-2" t-if="o.employee_id.name" style="font-size:10px">
+                    <p><span t-field="o.employee_id.name"/></p>
+                </div>
+                <div class="col-3 bm-2" style="font-size:10px">
+                    <p>Month:</p>
+                </div>
+                <div class="col-3 bm-2" t-if="o.name" style="font-size:10px">
+                    <p><span t-esc="month"/></p>
+                </div>
+            </div>
+            <div class='row'>
+                <div class="col-3 bm-2" style="font-size:10px">
+                    <p>Employee Code:</p>
+                </div>
+                <div class="col-3 bm-2" t-if="o.employee_id.registration_number" style="font-size:10px">
+                    <p><span t-field="o.employee_id.registration_number"/></p>
+                </div>
+                <div class="col-3 bm-2" style="font-size:10px">
+                    <p>Bank Account:</p>
+                </div>
+                <div class="col-3 bm-2" t-if="o.employee_id.bank_account_id.bank_id.name" style="font-size:10px">
+                    <p><span t-field="o.employee_id.bank_account_id.bank_id.name"/></p>
+                </div>
+            </div>
+            <div class='row'>
+                <div class="col-3 bm-2" style="font-size:10px">
+                    <p>Level:</p>
+                </div>
+                <div class="col-3 bm-2" t-if="o.employee_id.level_id.code" style="font-size:10px">
+                    <p><span t-field="o.employee_id.level_id.code"/></p>
+                </div>
+                <div class="col-3 bm-2" style="font-size:10px">
+                    <p>Currency:</p>
+                </div>
+                <div class="col-3 bm-2" t-if="o.employee_id.bank_account_id.company_id.currency_id.name" style="font-size:10px">
+                    <p><span t-field="o.employee_id.bank_account_id.company_id.currency_id.name"/></p>
+                </div>
+            </div>
+            <div class='row'>
+                <div class="col-3 bm-2" style="font-size:10px">
+                    <p>Program/Department:</p>
+                </div>
+                <div class="col-3 bm-2" t-if="o.employee_id.work_location_id.name" style="font-size:10px">
+                    <p><span t-field="o.employee_id.work_location_id.name" /></p>
+                </div>
+            </div>
+            <!-- The next part of the table -->
+            <div class='row bg-primary text-dark'>
+                <div class="col-2 bm-2" style="font-size:10px">
+                    <p>Income</p>
+                </div>
+                <div class="col-2 bm-2" style="font-size:10px">
+                    <p></p>
+                </div>
+                <div class="col-2 bm-2" style="font-size:10px">
+                    <p>Amount</p>
+                </div>
+                <div class="col-2 bm-2" style="font-size:10px">
+                    <p>Deduction</p>
+                </div>
+                <div class="col-2 bm-2" style="font-size:10px">
+                    <p></p>
+                </div>
+                <div class="col-2 bm-2" style="font-size:10px">
+                    <p>Amount</p>
+                </div>
+            </div>
+            <!-- Retrieve Data -->
+            <t t-set="basic" t-value="0.0"/>
+            <t t-set="allowance" t-value="0.0"/>
+            <t t-set="mvpp" t-value="0.0"/>
+            <t t-set="totalba" t-value="0.0"/>
+            <t t-set="gross" t-value="0.0"/>
+            <t t-set="avpp" t-value="0.0"/>
+            <t t-set="swithoutvpp" t-value="0.0"/>
+            <t t-set="vpprate" t-value="0.0"/>
+            <t t-set="vppvalue" t-value="0.0"/>
+            <t t-set="saftervpp" t-value="0.0"/>
+            <t t-set="nightrate" t-value="0.0"/>
+            <t t-set="nightvalue" t-value="0.0"/>
+            <t t-set="compoffrate" t-value="0.0"/>
+            <t t-set="compoffvalue" t-value="0.0"/>
+            <t t-set="overrate" t-value="0.0"/>
+            <t t-set="overamount" t-value="0.0"/>
+            <t t-set="compoffrateh" t-value="0.0"/>
+            <t t-set="compoffvalueh" t-value="0.0"/>
+            <t t-set="overrateh" t-value="0.0"/>
+            <t t-set="overamounth" t-value="0.0"/>
+            <t t-set="otheradd" t-value="0.0"/>
+            <t t-set="ramadanall" t-value="0.0"/>
+            <t t-set="totaladds" t-value="0.0"/>
+            <t t-set="safteradds" t-value="0.0"/>
+            <t t-set="absent" t-value="0.0"/>
+            <t t-set="absentamount" t-value="0.0"/>
+            <t t-set="minsurance" t-value="0.0"/>
+            <t t-set="otherded" t-value="0.0"/>
+            <t t-set="stax" t-value="0.0"/>
+            <t t-set="advpay" t-value="0.0"/>
+            <t t-set="leavecash" t-value="0.0"/>
+            <t t-set="netsalary" t-value="0.0"/>
+
+            
+            <t t-foreach="o.line_ids" t-as="line">
+                <t t-if="line.code == 'ns'">
+                    <t t-set="nightrate" t-value="line.total"/>
+                </t>
+                <t t-if="line.code == 'A-018'">
+                    <t t-set="nightvalue" t-value="line.total"/>
+                </t>
+                <t t-if="line.code == 'comp-of'">
+                    <t t-set="compoffrate" t-value="line.total"/>
+                </t>
+                <t t-if="line.code == 'A-014'">
+                    <t t-set="compoffvalue" t-value="line.total"/>
+                </t>
+                <t t-if="line.code == 'ofs'">
+                    <t t-set="overrate" t-value="line.total"/>
+                </t>
+                <t t-if="line.code == 'A-015'">
+                    <t t-set="overamount" t-value="line.total"/>
+                </t>
+                <t t-if="line.code == 'cofh'">
+                    <t t-set="compoffrateh" t-value="line.total"/>
+                </t>
+                <t t-if="line.code == 'A-016'">
+                    <t t-set="compoffvalueh" t-value="line.total"/>
+                </t>
+                <t t-if="line.code == 'ofh'">
+                    <t t-set="overrateh" t-value="line.total"/>
+                </t>
+                <t t-if="line.code == 'A-017'">
+                    <t t-set="overamounth" t-value="line.total"/>
+                </t>
+                <t t-if="line.code == 'A-013'">
+                    <t t-set="otheradd" t-value="line.total"/>
+                </t>
+                <t t-if="line.code == 'A-019'">
+                    <t t-set="ramadanall" t-value="line.total"/>
+                </t>
+                <t t-if="line.code == 'A-020'">
+                    <t t-set="totaladds" t-value="line.total"/>
+                </t>
+                <t t-if="line.code == 'A-021'">
+                    <t t-set="safteradds" t-value="line.total"/>
+                </t>
+                <t t-if="line.code == 'D-0012'">
+                    <t t-set="absent" t-value="line.total"/>
+                </t>
+                <t t-if="line.code == 'D-001'">
+                    <t t-set="absentamount" t-value="line.total"/>
+                </t>
+                <t t-if="line.code == 'D-00311'">
+                    <t t-set="minsurance" t-value="line.total"/>
+                </t>
+                <t t-if="line.code == 'D-004'">
+                    <t t-set="otherded" t-value="line.total"/>
+                </t>
+                <t t-if="line.code == 'D-008'">
+                    <t t-set="stax" t-value="line.total"/>
+                </t>
+                <t t-if="line.code == 'NT-001'">
+                    <t t-set="advpay" t-value="line.total"/>
+                </t>
+                <t t-if="line.code == 'NT-002'">
+                    <t t-set="leavecash" t-value="line.total"/>
+                </t>
+                <t t-if="line.code == 'NT-004'">
+                    <t t-set="netsalary" t-value="line.total"/>
+                </t>
+            </t>
+            
+            
+            <div class='row'>
+                <div class="col-2 bm-2" style="font-size:12px">
+                    <p>Basic</p>
+                </div>
+                <div class="col-2 bm-2" style="font-size:12px">
+                    <p></p>
+                </div>
+                <div class="col-2 bm-2" style="font-size:12px">
+                    <p><span t-esc="basic"/></p>
+                </div>
+                <div class="col-2 bm-2" style="font-size:12px">
+                    <p>Absences</p>
+                </div>
+                <div class="col-2 bm-2" style="font-size:12px">
+                    <p><span t-esc="absent"/></p>
+                </div>
+                <div class="col-2 bm-2" style="font-size:12px">
+                    <p><span t-esc="absentamount"/></p>
+                </div>
+            </div>
+            <div class='row'>
+                <div class="col-2 bm-2" style="font-size:12px">
+                    <p></p>
+                </div>
+                <div class="col-2 bm-2" style="font-size:12px">
+                    <p></p>
+                </div>
+                <div class="col-2 bm-2" style="font-size:12px">
+                    <p></p>
+                </div>
+                <div class="col-4 bm-2" style="font-size:12px">
+                    <p>(Please refer back to your TL)</p>
+                </div>
+<!--                 <div class="col-2 bm-2" style="font-size:10px">
+                    <p></p>
+                </div> -->
+                <div class="col-2 bm-2" style="font-size:12px">
+                    <p></p>
+                </div>
+            </div>
+            <div class='row'>
+                <div class="col-2 bm-2" style="font-size:12px">
+                    <p>Allowances</p>
+                </div>
+                <div class="col-2 bm-2" style="font-size:12px">
+                    <p></p>
+                </div>
+                <div class="col-2 bm-2" style="font-size:12px">
+                    <p><span t-esc="allowance"/></p>
+                </div>
+            </div>
+            
+            <div class='row'>
+                <div class="col-2 bm-2" style="font-size:12px">
+                    <p>Monthly VPP</p>
+                </div>
+                <div class="col-2 bm-2" style="font-size:12px">
+                    <p></p>
+                </div>
+                <div class="col-2 bm-2" style="font-size:12px">
+                    <p><span t-esc="mvpp"/></p>
+                </div>
+            </div>
+            
+            <div class='row'>
+                <div class="col-2 bm-2" style="font-size:12px">
+                    <p>Total Basic &amp; Allowances</p>
+                </div>
+                <div class="col-2 bm-2" style="font-size:12px">
+                    <p></p>
+                </div>
+                <div class="col-2 bm-2" style="font-size:12px">
+                    <p><span t-esc="totalba"/></p>
+                </div>
+            </div>
+            
+            <div class='row'>
+                <div class="col-2 bm-2" style="font-size:12px">
+                    <p>Productivity Bonus</p>
+                </div>
+                <div class="col-2 bm-2" style="font-size:12px">
+                    <p></p>
+                </div>
+                <div class="col-2 bm-2" style="font-size:12px">
+                    <p>NaN(value needed)</p>
+                </div>
+            </div>
+            
+            <div class='row'>
+                <div class="col-2 bm-2" style="font-size:12px">
+                    <p>Language Bonus</p>
+                </div>
+                <div class="col-2 bm-2" style="font-size:12px">
+                    <p></p>
+                </div>
+                <div class="col-2 bm-2" style="font-size:12px">
+                    <p>NaN(value needed)</p>
+                </div>
+            </div>
+            
+            <div class='row'>
+                <div class="col-2 bm-2" style="font-size:12px">
+                    <p>Performance Incentives</p>
+                </div>
+                <div class="col-2 bm-2" style="font-size:12px">
+                    <p></p>
+                </div>
+                <div class="col-2 bm-2" style="font-size:12px">
+                    <p>NaN(value needed)</p>
+                </div>
+            </div>
+            
+            <div class='row'>
+                <div class="col-2 bm-2 bg-warning" style="font-size:12px">
+                    <p>Gross Salary</p>
+                </div>
+                <div class="col-2 bm-2 bg-warning" style="font-size:12px">
+                    <p></p>
+                </div>
+                <div class="col-2 bm-2 bg-warning" style="font-size:12px">
+                    <p><span t-esc="gross"/></p>
+                </div>
+            </div>
+            
+            <div class='row'>
+                <div class="col-2 bm-2" style="font-size:12px">
+                    <p>Annual VPP</p>
+                </div>
+                <div class="col-2 bm-2" style="font-size:12px">
+                    <p></p>
+                </div>
+                <div class="col-2 bm-2" style="font-size:12px">
+                    <p><span t-esc="avpp"/></p>
+                </div>
+            </div>
+            
+            <div class='row'>
+                <div class="col-2 bm-2" style="font-size:12px">
+                    <p>Nightshift Allowance</p>
+                </div>
+                <div class="col-2 bm-2" style="font-size:12px">
+                    <p></p>
+                </div>
+                <div class="col-2 bm-2" style="font-size:12px">
+                    <p>NaN(value needed)</p>
+                </div>
+            </div>
+            
+            <div class='row'>
+                <div class="col-2 bm-2" style="font-size:12px">
+                    <p>Salary without VPP</p>
+                </div>
+                <div class="col-2 bm-2" style="font-size:12px">
+                    <p></p>
+                </div>
+                <div class="col-2 bm-2" style="font-size:12px">
+                    <p><span t-esc="swithoutvpp"/></p>
+                </div>
+                <div class="col-2 bm-2" style="font-size:12px">
+                    <p>Social Insurance</p>
+                </div>
+                <div class="col-2 bm-2" style="font-size:12px">
+                    <p></p>
+                </div>
+                <div class="col-2 bm-2" style="font-size:12px">
+                    <p>NaN(value needed)</p>
+                </div>
+            </div>
+            
+            <div class='row'>
+                <div class="col-2 bm-2" style="font-size:12px">
+                    <p>VPP</p>
+                    <p>(Please refer to your TL)</p>
+                </div>
+                <div class="col-2 bm-2" style="font-size:12px">
+                    <p><span t-esc="vpprate"/></p>
+                </div>
+                <div class="col-2 bm-2" style="font-size:12px">
+                    <p><span t-esc="vppvalue"/></p>
+                </div>
+                <div class="col-2 bm-2" style="font-size:12px">
+                    <p>Medical Insurance</p>
+                </div>
+                <div class="col-2 bm-2" style="font-size:12px">
+                    <p></p>
+                </div>
+                <div class="col-2 bm-2" style="font-size:12px">
+                    <p><span t-esc="minsurance"/></p>
+                </div>
+            </div>
+            
+            <div class='row'>
+                <div class="col-2 bm-2 bg-info text-dark" style="font-size:12px">
+                    <p>Salary After VPP</p>
+                </div>
+                <div class="col-2 bm-2 bg-info text-dark" style="font-size:12px">
+                    <p></p>
+                </div>
+                <div class="col-2 bm-2 bg-info text-dark" style="font-size:12px">
+                    <p><span t-esc="saftervpp"/></p>
+                </div>
+                <div class="col-2 bm-2" style="font-size:12px">
+                    <p>Other Deduction</p>
+                </div>
+                <div class="col-2 bm-2" style="font-size:12px">
+                    <p></p>
+                </div>
+                <div class="col-2 bm-2" style="font-size:12px">
+                    <p><span t-esc="otherded"/></p>
+                </div>
+            </div>
+            <div class='row'>
+                <div class="col-2 bm-2" style="font-size:12px">
+                    <p></p>
+                </div>
+                <div class="col-2 bm-2" style="font-size:12px">
+                    <p></p>
+                </div>
+                <div class="col-2 bm-2" style="font-size:12px">
+                    <p></p>
+                </div>
+                <div class="col-4 bm-2" style="font-size:12px">
+                    <p>(Please refer back to finance team)</p>
+                </div>
+<!--                 <div class="col-2 bm-2" style="font-size:10px">
+                    <p></p>
+                </div> -->
+                <div class="col-2 bm-2" style="font-size:12px">
+                    <p></p>
+                </div>
+            </div>
+            
+            <div class='row'>
+                <div class="col-2 bm-2" style="font-size:12px">
+                    <p>Night Shift Allowance</p>
+                </div>
+                <div class="col-2 bm-2" style="font-size:12px">
+                    <p><span t-esc="nightrate"/></p>
+                </div>
+                <div class="col-2 bm-2" style="font-size:12px">
+                    <p><span t-esc="nightvalue"/></p>
+                </div>
+                <div class="col-4 bm-2" style="font-size:12px">
+                    <p>Ramadan allowance adjustment</p>
+                </div>
+<!--                 <div class="col-2 bm-2" style="font-size:10px">
+                    <p></p>
+                </div> -->
+                <div class="col-2 bm-2" style="font-size:12px">
+                    <p>NaN(value needed)</p>
+                </div>
+            </div>
+            
+            <div class='row'>
+                <div class="col-2 bm-2" style="font-size:12px">
+                    <p>Comp off from Site</p>
+                </div>
+                <div class="col-2 bm-2" style="font-size:12px">
+                    <p><span t-esc="compoffrate"/></p>
+                </div>
+                <div class="col-2 bm-2" style="font-size:12px">
+                    <p><span t-esc="compoffvalue"/></p>
+                </div>
+                <div class="col-2 bm-2" style="font-size:12px">
+                    <p>Salary Taxes</p>
+                </div>
+                <div class="col-2 bm-2" style="font-size:12px">
+                    <p></p>
+                </div>
+                <div class="col-2 bm-2" style="font-size:12px">
+                    <p><span t-esc="stax"/></p>
+                </div>
+            </div>
+            <div class='row'>
+                <div class="col-4 bm-2" style="font-size:12px">
+                    <p>(Please refer to RTA team)</p>
+                </div>
+<!--                 <div class="col-2 bm-2" style="font-size:10px">
+                    <p><span t-esc="compoffrate"/></p>
+                </div> -->
+                <div class="col-2 bm-2" style="font-size:12px">
+                    <p></p>
+                </div>
+            </div>
+            <div class='row'>
+                <div class="col-2 bm-2" style="font-size:12px">
+                    <p>Comp off from Home</p>
+                </div>
+                <div class="col-2 bm-2" style="font-size:12px">
+                    <p><span t-esc="compoffrateh"/></p>
+                </div>
+                <div class="col-2 bm-2" style="font-size:12px">
+                    <p><span t-esc="compoffvalueh"/></p>
+                </div>
+            </div>
+            <div class='row'>
+                <div class="col-4 bm-2" style="font-size:12px">
+                    <p>(Please refer to RTA team)</p>
+                </div>
+<!--                 <div class="col-2 bm-2" style="font-size:10px">
+                    <p><span t-esc="compoffrateh"/></p>
+                </div> -->
+                <div class="col-2 bm-2" style="font-size:12px">
+                    <p></p>
+                </div>
+            </div>
+            <div class='row'>
+                <div class="col-2 bm-2" style="font-size:12px">
+                    <p>Overtime from Site</p>
+                </div>
+                <div class="col-2 bm-2" style="font-size:12px">
+                    <p><span t-esc="overrate"/></p>
+                </div>
+                <div class="col-2 bm-2" style="font-size:12px">
+                    <p><span t-esc="overamount"/></p>
+                </div>
+            </div>
+            <div class='row'>
+                <div class="col-4 bm-2" style="font-size:12px">
+                    <p>(Please refer to RTA team)</p>
+                </div>
+<!--                 <div class="col-2 bm-2" style="font-size:10px">
+                    <p><span t-esc="overrate"/></p>
+                </div> -->
+                <div class="col-2 bm-2" style="font-size:12px">
+                    <p></p>
+                </div>
+            </div>
+            <div class='row'>
+                <div class="col-2 bm-2" style="font-size:12px">
+                    <p>Overtime from Home</p>
+                </div>
+                <div class="col-2 bm-2" style="font-size:12px">
+                    <p><span t-esc="overrateh"/></p>
+                </div>
+                <div class="col-2 bm-2" style="font-size:12px">
+                    <p><span t-esc="overamounth"/></p>
+                </div>
+            </div>
+            <div class='row'>
+                <div class="col-4 bm-2" style="font-size:12px">
+                    <p>(Please refer to RTA team)</p>
+                </div>
+                <div class="col-2 bm-2" style="font-size:12px">
+                    <p></p>
+                </div>
+                <div class="col-2 bm-2" style="font-size:12px">
+                    <p></p>
+                </div>
+            </div>
+            <div class='row'>
+                <div class="col-2 bm-2" style="font-size:12px">
+                    <p>Other Additions</p>
+                </div>
+                <div class="col-2 bm-2" style="font-size:12px">
+                    <p></p>
+                </div>
+                <div class="col-2 bm-2" style="font-size:12px">
+                    <p><span t-esc="otheradd"/></p>
+                </div>
+                
+                <div class="col-2 bm-2" style="font-size:12px">
+                    <p>Advanced Payments</p>
+                </div>
+                <div class="col-2 bm-2" style="font-size:12px">
+                    <p></p>
+                </div>
+                <div class="col-2 bm-2" style="font-size:12px">
+                    <p><span t-esc="advpay"/></p>
+                </div>
+            </div>
+            <div class='row'>
+                <div class="col-2 bm-2" style="font-size:12px">
+                    <p>Ramadan Allowance</p>
+                </div>
+                <div class="col-2 bm-2" style="font-size:12px">
+                    <p></p>
+                </div>
+                <div class="col-2 bm-2" style="font-size:12px">
+                    <p><span t-esc="ramadanall"/></p>
+                </div>
+            </div>
+            <div class='row'>
+                <div class="col-2 bm-2 bg-info text-dark" style="font-size:12px">
+                    <p>Total Additions</p>
+                </div>
+                <div class="col-2 bm-2 bg-info text-dark" style="font-size:12px">
+                    <p></p>
+                </div>
+                <div class="col-2 bm-2 bg-info text-dark" style="font-size:12px">
+                    <p><span t-esc="totaladds"/></p>
+                </div>
+                <div class="col-2 bm-2" style="font-size:12px">
+                    <p>Leave Balance</p>
+                </div>
+                <div class="col-2 bm-2" style="font-size:12px">
+                    <p></p>
+                </div>
+                <div class="col-2 bm-2" style="font-size:12px">
+                    <p>NaN(value needed)</p>
+                </div>
+            </div>
+            <div class='row'>
+                <div class="col-2 bm-2" style="font-size:12px">
+                    <p></p>
+                </div>
+                <div class="col-2 bm-2" style="font-size:12px">
+                    <p></p>
+                </div>
+                <div class="col-2 bm-2" style="font-size:12px">
+                    <p></p>
+                </div>
+                <div class="col-4 bm-2" style="font-size:12px">
+                    <p>Leave Balance encashment</p>
+                </div>
+<!--                 <div class="col-2 bm-2" style="font-size:10px">
+                    <p></p>
+                </div> -->
+                <div class="col-2 bm-2" style="font-size:12px">
+                    <p><span t-esc="leavecash"/></p>
+                </div>
+            </div>
+            <div class='row'>
+                <div class="col-2 bm-2 bg-info text-dark" style="font-size:12px">
+                    <p>Salary after additions</p>
+                </div>
+                <div class="col-2 bm-2 bg-info text-dark" style="font-size:12px">
+                    <p></p>
+                </div>
+                <div class="col-2 bm-2 bg-info text-dark" style="font-size:12px">
+                    <p><span t-esc="safteradds"/></p>
+                </div>
+                <div class="col-2 bm-2" style="font-size:12px">
+                    <p>Net Salary</p>
+                </div>
+                <div class="col-2 bm-2" style="font-size:12px">
+                    <p></p>
+                </div>
+                <div class="col-2 bm-2" style="font-size:12px">
+                    <p><span t-esc="netsalary"/></p>
+                </div>
+            </div>
+            <div class = "row" style="font-size:12px">
+                <p class="h3"></p>
+            </div>
+            <div class="row" style="font-size:12px">
+                    <table class="table-sm" style="width:75%;border-collapse: collapse;">
+                        <thead style="border: 1px solid black;">
+                            <tr style="border-bottom: 1px;">
+                                <th style="border-right: 1px solid black;"></th>
+                                <th style="border-right: 1px solid black;">Amount</th>
+                                <th style="border-right: 1px solid black;">Reason</th>
+                            </tr>
+                        </thead>
+                        <tbody style="border: 1px solid black;">
+                            <tr style="border-bottom: 1px solid black;">
+                                <td style="border-right: 1px solid black;">Other Additions Explanation</td>
+                                <td style="border-right: 1px solid black;">NaN(value needed)</td>
+                                <td style="border-right: 1px solid black;">NaN(value needed)</td>
+                            </tr>
+                            <tr style="border-bottom: 1px solid black;">
+                                <td style="border-right: 1px solid black;">Other Deductions Explanation</td>
+                                <td style="border-right: 1px solid black;">NaN(value needed)</td>
+                                <td style="border-right: 1px solid black;">NaN(value needed)</td>
+                            </tr>
+                        </tbody>
+                </table>
+            </div>
+            <div class="row" style="font-size:10px">
+                <strong><u>N.B.</u></strong>
+                <strong>This pay slip contains confidential data for you only, Please do not share it with anyone and for any further concerns Please refer back to your Team Leader at any time.</strong>
+            </div>
+            </div>
+        </t>
+    </template>
+    
+    <template id="report_payslip_employee_pdf_idd">
+        <t t-call="web.html_container">
+            <t t-foreach="docs" t-as="o">
+                <t t-set="lang" t-value="user.partner_id.lang"/>
+                <t t-call="hr_custom_reports.report_payslip_employee_pdf" t-lang="lang"/>
+            </t>
+        </t>
+    </template>
+    
+</odoo>
