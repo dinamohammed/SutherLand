@@ -6,7 +6,7 @@
         HR Customized Reports for Sutherland""",
 
     'description': """
-        
+        HR Customized Reports for Sutherland
     """,
 
     'author': "Egymentors",
