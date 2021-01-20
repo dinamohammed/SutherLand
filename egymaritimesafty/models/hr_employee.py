@@ -109,7 +109,7 @@ class Session(models.Model):
     @api.onchange('subject_id')
     def onchange_subject_id(self):
         for rec in self:
-            rec.instructor_id = rec.subject_id.responsible_id.partner_id.id
+            rec.instructor_id = rec.subject_id.responsible_id
 
     @api.onchange('session_duration')
     def _compute_session_duration(self):
