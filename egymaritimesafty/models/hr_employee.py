@@ -26,9 +26,9 @@ class TrainingSubject(models.Model):
     training_place_id = fields.Many2one('hr.training.place', string="Training Place")
     responsible_id = fields.Many2one('hr.employee', ondelete='set null', string="Responsible", index=True)
     in_comp_training_check = fields.Boolean(compute='_check_training_place')
-    trainer_type = fields.Selection(string="Trainer Type", selection=[('internal', 'مدرب داخلي (موظف من الهيئة)'),
-                                                                      ('external', 'مدرب خارجي (مدرب خارج الهيئة)')])
-    training_duration = fields.Integer(help="مدة التدريب بالايام.")
+    trainer_type = fields.Selection(string="Trainer Type", selection=[('internal', 'External Trainer'),
+                                                                      ('external', 'External Trainer')])
+    training_duration = fields.Integer(help="Training duration per day/s.")
     participant_ids = fields.Many2many(comodel_name="hr.employee", string="Participants")
 
     @api.depends('training_place_id.training')
@@ -75,7 +75,8 @@ class TrainingPlace(models.Model):
 
     name = fields.Char(string="Trainning Place", required='True')
     training = fields.Selection(string="In or Out company",
-                                selection=[('in_company', 'داخل الهيئة'), ('out_company', 'خارج الهيئة'), ])
+                                selection=[('in_company', 'Inside the company'),
+                                           ('out_company', 'Outside the company'), ])
     subject_id = fields.Many2one('hr.training.subject', string="Course Subject", required='True')
     currency_id = fields.Many2one('res.currency', default=lambda self: self.env.company.currency_id.id)
     training_cost_type = fields.Selection(string="Training Cost Type",
@@ -98,8 +99,8 @@ class Session(models.Model):
     name = fields.Char(string="Session", required=True)
     subject_id = fields.Many2one('hr.training.subject', string="Course Subject", required=True)
     session_date = fields.Datetime(string="Session Date")
-    session_duration = fields.Float(string="Duration", digits=(6, 2), help="مدة المحاضرة بالساعات.")
-    session_duration_display = fields.Char(string="Duration", help="مدة المحاضرة بالساعات.",
+    session_duration = fields.Float(string="Duration", digits=(6, 2), help="Session duration per hours.")
+    session_duration_display = fields.Char(string="Duration", help="Session duration per hours.",
                                            compute="_compute_session_duration")
     seats = fields.Integer(string="Number of seats")
     instructor_id = fields.Many2one('hr.employee', string="Instructor")
@@ -157,16 +158,17 @@ class Reassignment(models.Model):
     employee_id = fields.Many2one('hr.employee', string="Employee Name", required=True)
     certificate = fields.Selection('Certificate Level', related='employee_id.certificate', default='other',
                                    readonly=True, tracking=True)
-    # payment_mode = fields.Selection(related='expense_line_ids.payment_mode', default='own_account', readonly=True, string="Paid By", tracking=True)
+    # payment_mode = fields.Selection(related='expense_line_ids.payment_mode', default='own_account', readonly=True,
+    #                                   string="Paid By", tracking=True)
     new_certificate = fields.Selection([
-        ('graduate', 'خريج'),
-        ('bachelor', 'الباكلوريوس'),
-        ('master', 'دراسات عليا'),
-        ('doctor', 'دكتوراه'),
-        ('other', 'غير ذلك'),
+        ('graduate', 'Graduate'),
+        ('bachelor', 'Bachelor'),
+        ('master', 'Master'),
+        ('doctor', 'Doctor'),
+        ('other', 'other'),
     ], 'New Certificate Level', required=True, tracking=True)
     date_reassignment = fields.Date(string="Reassignment Date", default=fields.Date.today())
-    functional_job_id = fields.Many2one('hr.functional.job', string="Functional Job")
+    functional_job_id = fields.Many2one('hr.functional.job', string="Functional Job Group")
     qualitative_job_id = fields.Many2one('hr.qualitative.job', string="Qualitative Jobs")
     job_title_id = fields.Many2one('hr.title', string="Job Title", required=True)
     job_full_name = fields.Char('Job Full Name', related='employee_id.job_title_id.job_full_name')
@@ -212,7 +214,7 @@ class Reassignment(models.Model):
     @api.onchange('job_title_id')
     def onchange_job_title_id(self):
         """
-        This function -onchange job_title_id- changethe value of the name to concatenates:
+        This function -onchange job_title_id- change the value of the name to concatenates:
             employee name + the new job
         """
         for rec in self:
