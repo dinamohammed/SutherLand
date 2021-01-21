@@ -247,6 +247,7 @@ msgstr ""
 #: model_terms:ir.ui.view,arch_db:egymaritimesafty.view_hr_reassignment_tree
 #: model_terms:ir.ui.view,arch_db:egymaritimesafty.view_hr_training_evaluation_form
 #: model_terms:ir.ui.view,arch_db:egymaritimesafty.view_hr_training_evaluation_tree
+#: model_terms:ir.ui.view,arch_db:egymaritimesafty.view_hr_training_subject_form
 msgid "Employee"
 msgstr "الموظف"
 
@@ -269,6 +270,7 @@ msgstr ""
 #: model:ir.ui.menu,name:egymaritimesafty.menu_hr_training_evaluation
 #: model_terms:ir.ui.view,arch_db:egymaritimesafty.view_hr_training_evaluation_form
 #: model_terms:ir.ui.view,arch_db:egymaritimesafty.view_hr_training_evaluation_tree
+#: model_terms:ir.ui.view,arch_db:egymaritimesafty.view_hr_training_subject_form
 msgid "Evaluation"
 msgstr "التقييم"
 
@@ -321,6 +323,7 @@ msgstr "المجموعات الوظيفية"
 #: model:ir.model.fields,field_description:egymaritimesafty.field_hr_training_evaluation__grade
 #: model_terms:ir.ui.view,arch_db:egymaritimesafty.view_hr_training_evaluation_form
 #: model_terms:ir.ui.view,arch_db:egymaritimesafty.view_hr_training_evaluation_tree
+#: model_terms:ir.ui.view,arch_db:egymaritimesafty.view_hr_training_subject_form
 msgid "Grade"
 msgstr "التقدير"
 
@@ -741,6 +744,7 @@ msgstr "نوع المدرب"
 #: model_terms:ir.ui.view,arch_db:egymaritimesafty.view_hr_training_place_form
 #: model_terms:ir.ui.view,arch_db:egymaritimesafty.view_hr_training_session_form
 #: model_terms:ir.ui.view,arch_db:egymaritimesafty.view_hr_training_session_tree
+#: model_terms:ir.ui.view,arch_db:egymaritimesafty.view_hr_training_subject_form
 msgid "Training"
 msgstr "التدريب"
 

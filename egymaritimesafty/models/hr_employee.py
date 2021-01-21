@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
 from odoo import api, fields, models, _
-from odoo.exceptions import ValidationError
+from odoo.exceptions import ValidationError, AccessError
 
 
 class HrEmployeePrivate(models.Model):
@@ -30,6 +30,8 @@ class TrainingSubject(models.Model):
                                                                       ('external', 'External Trainer')])
     training_duration = fields.Integer(help="Training duration per day/s.")
     participant_ids = fields.Many2many(comodel_name="hr.employee", string="Participants")
+    evaluation_ids = fields.One2many(comodel_name="hr.training.evaluation", inverse_name="subject_id",
+                                     string="Participants")
 
     @api.depends('training_place_id.training')
     def _check_training_place(self):
@@ -128,26 +130,25 @@ class TrainingEvaluation(models.Model):
     #                                                     ('good', 'جيد'),
     #                                                     ('accepted', 'مقبول')])
     subject_id = fields.Many2one('hr.training.subject')
-    trainee_id = fields.Many2one('res.partner')
+    trainee_id = fields.Many2one('hr.employee')
     grade = fields.Integer()
 
-    # @api.onchange('grade')
-    # def _compute_grade(self):
-    #     for rec in self:
-    #         if rec.grade:
-    #             if rec.grade < 60:
-    #                 rec.evaluation = ''
-    #             elif 60 <= rec.grade >=65:
-    #                 rec.evaluation = 'مقبول'
-    #             elif 66 <= rec.grade >=75:
-    #                 rec.evaluation = 'جيد'
-    #             elif 76 <= rec.grade >=89:
-    #                 rec.evaluation = 'جيد جدا'
-    #             elif 90 <= rec.grade >=100:
-    #                 rec.evaluation = 'ممتاز'
-    #             else:
-    #                 raise ValidationError(
-    #                     _("ادخل رقم صحيح..."))
+    @api.onchange('grade')
+    def _compute_grade(self):
+        for rec in self:
+            if rec.grade:
+                if rec.grade < 60:
+                    rec.name = ''
+                elif 60 <= rec.grade >= 65:
+                    rec.name = 'مقبول'
+                elif 66 <= rec.grade >= 75:
+                    rec.name = 'جيد'
+                elif 76 <= rec.grade >= 89:
+                    rec.name = 'جيد جدا'
+                elif 90 <= rec.grade >= 100:
+                    rec.name = 'ممتاز'
+                else:
+                    raise ValidationError(_("ادخل رقم صحيح..."))
 
 
 class Reassignment(models.Model):
