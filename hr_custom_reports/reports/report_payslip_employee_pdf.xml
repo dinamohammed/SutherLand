@@ -84,9 +84,14 @@
             <t t-set="allowance" t-value="0.0"/>
             <t t-set="mvpp" t-value="0.0"/>
             <t t-set="totalba" t-value="0.0"/>
+            <t t-set="pro_bonus" t-value="0.0"/>
+            <t t-set="lang_bonus" t-value="0.0"/>
+            <t t-set="perf_inc" t-value="0.0"/>
+            <t t-set="ramadan_adj" t-value="0.0"/>
             <t t-set="gross" t-value="0.0"/>
             <t t-set="avpp" t-value="0.0"/>
             <t t-set="swithoutvpp" t-value="0.0"/>
+            <t t-set="soc_ins" t-value="0.0"/>
             <t t-set="vpprate" t-value="0.0"/>
             <t t-set="vppvalue" t-value="0.0"/>
             <t t-set="saftervpp" t-value="0.0"/>
@@ -112,9 +117,26 @@
             <t t-set="advpay" t-value="0.0"/>
             <t t-set="leavecash" t-value="0.0"/>
             <t t-set="netsalary" t-value="0.0"/>
+            <t t-set="other_add" t-value="0.0"/>
+            <t t-set="other_ded" t-value="0.0"/>
 
             
             <t t-foreach="o.line_ids" t-as="line">
+                <t t-if="line.category_id.code == 'PB'">
+                    <t t-set="pro_bonus" t-value="line.total"/>
+                </t>
+                <t t-if="line.category_id.code == 'LB'">
+                    <t t-set="lang_bonus" t-value="line.total"/>
+                </t>
+                <t t-if="line.category_id.code == 'PI'">
+                    <t t-set="perf_inc" t-value="line.total"/>
+                </t>
+                <t t-if="line.code == 'D-002'">
+                    <t t-set="soc_ins" t-value="line.total"/>
+                </t>
+                <t t-if="line.category_id.code == 'RA'">
+                    <t t-set="ramadan_adj" t-value="line.total"/>
+                </t>
                 <t t-if="line.code == 'ns'">
                     <t t-set="nightrate" t-value="line.total"/>
                 </t>
@@ -180,6 +202,12 @@
                 </t>
                 <t t-if="line.code == 'NT-004'">
                     <t t-set="netsalary" t-value="line.total"/>
+                </t>
+                <t t-if="line.category_id.code == 'OA'">
+                    <t t-set="other_add" t-value="line.total"/>
+                </t>
+                <t t-if="line.code == 'D-004'">
+                    <t t-set="other_ded" t-value="line.total"/>
                 </t>
             </t>
             
@@ -268,7 +296,7 @@
                     <p></p>
                 </div>
                 <div class="col-2 bm-2" style="font-size:12px">
-                    <p>NaN(value needed)</p>
+                    <p><span t-esc="pro_bonus"/></p>
                 </div>
             </div>
             
@@ -280,7 +308,7 @@
                     <p></p>
                 </div>
                 <div class="col-2 bm-2" style="font-size:12px">
-                    <p>NaN(value needed)</p>
+                    <p><span t-esc="lang_bonus"/></p>
                 </div>
             </div>
             
@@ -292,7 +320,7 @@
                     <p></p>
                 </div>
                 <div class="col-2 bm-2" style="font-size:12px">
-                    <p>NaN(value needed)</p>
+                    <p><span t-esc="perf_inc"/></p>
                 </div>
             </div>
             
@@ -322,13 +350,13 @@
             
             <div class='row'>
                 <div class="col-2 bm-2" style="font-size:12px">
-                    <p>Nightshift Allowance</p>
+                    <p>Night shift</p>
                 </div>
                 <div class="col-2 bm-2" style="font-size:12px">
                     <p></p>
                 </div>
                 <div class="col-2 bm-2" style="font-size:12px">
-                    <p>NaN(value needed)</p>
+                    <p><span t-esc="nightrate"/></p>
                 </div>
             </div>
             
@@ -349,7 +377,7 @@
                     <p></p>
                 </div>
                 <div class="col-2 bm-2" style="font-size:12px">
-                    <p>NaN(value needed)</p>
+                    <p><span t-esc="soc_ins"/></p>
                 </div>
             </div>
             
@@ -421,7 +449,7 @@
                     <p>Night Shift Allowance</p>
                 </div>
                 <div class="col-2 bm-2" style="font-size:12px">
-                    <p><span t-esc="nightrate"/></p>
+                    <p></p>
                 </div>
                 <div class="col-2 bm-2" style="font-size:12px">
                     <p><span t-esc="nightvalue"/></p>
@@ -433,7 +461,7 @@
                     <p></p>
                 </div> -->
                 <div class="col-2 bm-2" style="font-size:12px">
-                    <p>NaN(value needed)</p>
+                    <p><span t-esc="ramadan_adj"/></p>
                 </div>
             </div>
             
@@ -641,13 +669,13 @@
                         <tbody style="border: 1px solid black;">
                             <tr style="border-bottom: 1px solid black;">
                                 <td style="border-right: 1px solid black;">Other Additions Explanation</td>
-                                <td style="border-right: 1px solid black;">NaN(value needed)</td>
-                                <td style="border-right: 1px solid black;">NaN(value needed)</td>
+                                <td style="border-right: 1px solid black;"><span t-esc="other_add"/></td>
+                                <td style="border-right: 1px solid black;"></td>
                             </tr>
                             <tr style="border-bottom: 1px solid black;">
                                 <td style="border-right: 1px solid black;">Other Deductions Explanation</td>
-                                <td style="border-right: 1px solid black;">NaN(value needed)</td>
-                                <td style="border-right: 1px solid black;">NaN(value needed)</td>
+                                <td style="border-right: 1px solid black;"><span t-esc="other_ded"/></td>
+                                <td style="border-right: 1px solid black;"></td>
                             </tr>
                         </tbody>
                 </table>
