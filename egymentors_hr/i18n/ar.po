@@ -193,21 +193,18 @@ msgid "<strong>Work Location:</strong>"
 msgstr "<strong>مكان العمل:</strong>"
 
 #. module: egymentors_hr
-#: model:hr.bonus.penalty.type,name:egymentors_hr.penalty_absence
 #: model:ir.model.fields,field_description:egymentors_hr.field_hr_bonus_penalty__total_penalties_absence
 #: model:ir.model.fields,field_description:egymentors_hr.field_hr_payslip__total_penalties_absence
 msgid "Absence"
 msgstr "غياب"
 
 #. module: egymentors_hr
-#: model:hr.bonus.penalty.type,name:egymentors_hr.penalty_penalty
 #: model:ir.model.fields,field_description:egymentors_hr.field_hr_bonus_penalty__total_penalties_penalty
 #: model:ir.model.fields,field_description:egymentors_hr.field_hr_payslip__total_penalties_penalty
 msgid "Penalty"
 msgstr "جزاء"
 
 #. module: egymentors_hr
-#: model:hr.bonus.penalty.type,name:egymentors_hr.penalty_other
 #: model:ir.model.fields,field_description:egymentors_hr.field_hr_bonus_penalty__total_penalties_other
 #: model:ir.model.fields,field_description:egymentors_hr.field_hr_payslip__total_penalties_other
 msgid "Other"
@@ -268,7 +265,6 @@ msgid "Add New penalty Type"
 msgstr "إضافه نوع جزاء جديد"
 
 #. module: egymentors_hr
-#: model:hr.bonus.penalty.type,name:egymentors_hr.bonus_additional
 #: model:ir.model.fields,field_description:egymentors_hr.field_hr_bonus_penalty__total_bonus_additional
 #: model:ir.model.fields,field_description:egymentors_hr.field_hr_payslip__total_bonus_additional
 msgid "Additional"
@@ -310,7 +306,6 @@ msgid "Basic Salary"
 msgstr "الراتب الاساسي"
 
 #. module: egymentors_hr
-#: model:hr.bonus.penalty.type,name:egymentors_hr.bonus_board_of_direction
 #: model:ir.model.fields,field_description:egymentors_hr.field_hr_bonus_penalty__total_bonus_direction
 #: model:ir.model.fields,field_description:egymentors_hr.field_hr_payslip__total_bonus_direction
 msgid "Board of Direction"
@@ -568,7 +563,6 @@ msgid "Draft"
 msgstr "جديد"
 
 #. module: egymentors_hr
-#: model:hr.bonus.penalty.type,name:egymentors_hr.bonus_efforts
 #: model:ir.model.fields,field_description:egymentors_hr.field_hr_bonus_penalty__total_bonus_efforts
 #: model:ir.model.fields,field_description:egymentors_hr.field_hr_payslip__total_bonus_efforts
 msgid "Efforts"
@@ -616,7 +610,6 @@ msgid "Employee's monthly gross wage."
 msgstr "الراتب الشهري للموظف"
 
 #. module: egymentors_hr
-#: model:hr.bonus.penalty.type,name:egymentors_hr.penalty_expenditure
 #: model:ir.model.fields,field_description:egymentors_hr.field_hr_bonus_penalty__total_penalty_expenditure
 #: model:ir.model.fields,field_description:egymentors_hr.field_hr_payslip__total_penalty_expenditure
 msgid "Expenditure"
@@ -640,14 +633,12 @@ msgid "External Days Num"
 msgstr "عدد الأيام الخارجيه"
 
 #. module: egymentors_hr
-#: model:hr.bonus.penalty.type,name:egymentors_hr.bonus_feeding
 #: model:ir.model.fields,field_description:egymentors_hr.field_hr_bonus_penalty__total_bonus_feeding
 #: model:ir.model.fields,field_description:egymentors_hr.field_hr_payslip__total_bonus_feeding
 msgid "Feeding"
 msgstr "بدل تغذيه"
 
 #. module: egymentors_hr
-#: model:hr.bonus.penalty.type,name:egymentors_hr.penalty_fixed
 #: model:ir.model.fields,field_description:egymentors_hr.field_hr_bonus_penalty__fixed_amount
 #: model:ir.model.fields,field_description:egymentors_hr.field_hr_bonus_penalty__total_penalty_fixed
 #: model:ir.model.fields,field_description:egymentors_hr.field_hr_bonus_penalty_type__fixed_amount
@@ -850,7 +841,6 @@ msgid "Image 512"
 msgstr ""
 
 #. module: egymentors_hr
-#: model:hr.bonus.penalty.type,name:egymentors_hr.penalty_impairment
 #: model:ir.model.fields,field_description:egymentors_hr.field_hr_bonus_penalty__total_penalty_impairment
 #: model:ir.model.fields,field_description:egymentors_hr.field_hr_payslip__total_penalty_impairment
 msgid "Impairment"
@@ -964,7 +954,6 @@ msgid "Last Updated on"
 msgstr "آخر تحديث في"
 
 #. module: egymentors_hr
-#: model:hr.bonus.penalty.type,name:egymentors_hr.bonus_leadership
 #: model:ir.model.fields,field_description:egymentors_hr.field_hr_bonus_penalty__total_bonus_leadership
 #: model:ir.model.fields,field_description:egymentors_hr.field_hr_payslip__total_bonus_leadership
 msgid "Leadership"
@@ -1271,7 +1260,6 @@ msgid "Print"
 msgstr "طباعه"
 
 #. module: egymentors_hr
-#: model:hr.bonus.penalty.type,name:egymentors_hr.bonus_production
 #: model:ir.model.fields,field_description:egymentors_hr.field_hr_bonus_penalty__total_bonus_production
 #: model:ir.model.fields,field_description:egymentors_hr.field_hr_payslip__total_bonus_production
 msgid "Production"
@@ -1313,7 +1301,6 @@ msgid "Rest To Draft"
 msgstr "اعاده إلى جديد"
 
 #. module: egymentors_hr
-#: model:hr.bonus.penalty.type,name:egymentors_hr.bonus_rewards
 #: model:ir.model.fields.selection,name:egymentors_hr.selection__hr_bonus_penalty__bonus_type__rewards
 #: model:ir.model.fields.selection,name:egymentors_hr.selection__hr_bonus_penalty_type__bonus_type__rewards
 msgid "Rewards"
@@ -1335,7 +1322,6 @@ msgid "SMS Delivery error"
 msgstr "خطأ في استلام رسائل الجوال"
 
 #. module: egymentors_hr
-#: model:hr.bonus.penalty.type,name:egymentors_hr.penalty_sick
 #: model:ir.model.fields,field_description:egymentors_hr.field_hr_bonus_penalty__total_penalties_sick
 #: model:ir.model.fields,field_description:egymentors_hr.field_hr_payslip__total_penalties_sick
 msgid "Sick"
@@ -1348,7 +1334,6 @@ msgid "Something Went Wrong!!!"
 msgstr "حدث خطأ فى النظام, من فضلك راجع المختص!!"
 
 #. module: egymentors_hr
-#: model:hr.bonus.penalty.type,name:egymentors_hr.penalty_spare_part
 #: model:ir.model.fields,field_description:egymentors_hr.field_hr_bonus_penalty__total_penalty_spare_part
 #: model:ir.model.fields,field_description:egymentors_hr.field_hr_payslip__total_penalty_spare_part
 msgid "Spare Part"
@@ -1437,7 +1422,6 @@ msgid "Transportation"
 msgstr " بدل الانتقال"
 
 #. module: egymentors_hr
-#: model:hr.bonus.penalty.type,name:egymentors_hr.bonus_transportation
 #: model:ir.actions.act_window,name:egymentors_hr.act_hr_trans_allowance
 #: model:ir.actions.report,name:egymentors_hr.hr_trans_allowance_report
 #: model:ir.model.fields,field_description:egymentors_hr.field_hr_payslip__hr_trans_lines_ids
@@ -1459,11 +1443,6 @@ msgstr "تقرير بدلات الانتقالات"
 #: model:ir.model.fields,field_description:egymentors_hr.field_hr_bonus_penalty__total_bonus_travel
 #: model:ir.model.fields,field_description:egymentors_hr.field_hr_payslip__total_bonus_travel
 msgid "Travel"
-msgstr "بدل سفر"
-
-#. module: egymentors_hr
-#: model:hr.bonus.penalty.type,name:egymentors_hr.bonus_travel
-msgid "Travel Allowance"
 msgstr "بدل سفر"
 
 #. module: egymentors_hr
@@ -1533,7 +1512,6 @@ msgid "Work Location"
 msgstr "مكان العمل"
 
 #. module: egymentors_hr
-#: model:hr.bonus.penalty.type,name:egymentors_hr.bonus_workshop
 #: model:ir.model.fields,field_description:egymentors_hr.field_hr_bonus_penalty__total_bonus_workshop
 #: model:ir.model.fields,field_description:egymentors_hr.field_hr_payslip__total_bonus_workshop
 msgid "Workshop"
@@ -1622,8 +1600,3 @@ msgstr ""
 #: model_terms:ir.ui.view,arch_db:egymentors_hr.view_hr_payslip_form_inherit
 msgid "total"
 msgstr "الإجمال"
-
-#. module: egymentors_hr
-#: model:hr.bonus.penalty.type,name:egymentors_hr.penalty_unpaid
-msgid "unpaid"
-msgstr "بدون اجر"
