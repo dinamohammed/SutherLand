@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <!--Bonus Types-->
+
+        <!--Allowance Types-->
+<!--        <record forcecreate="True" id="bonus_production" model="hr.bonus.penalty.type">-->
+<!--            <field name="name">Production</field>-->
+<!--            <field name="extra_type">bonus</field>-->
+<!--            <field name="bonus_type">allowance</field>-->
+<!--        </record>-->
+<!--        <record forcecreate="True" id="bonus_leadership" model="hr.bonus.penalty.type">-->
+<!--            <field name="name">Leadership</field>-->
+<!--            <field name="extra_type">bonus</field>-->
+<!--            <field name="bonus_type">allowance</field>-->
+<!--        </record>-->
+<!--        <record forcecreate="True" id="bonus_board_of_direction" model="hr.bonus.penalty.type">-->
+<!--            <field name="name">Board of Direction</field>-->
+<!--            <field name="extra_type">bonus</field>-->
+<!--            <field name="bonus_type">allowance</field>-->
+<!--        </record>-->
+<!--        <record forcecreate="True" id="bonus_workshop" model="hr.bonus.penalty.type">-->
+<!--            <field name="name">Workshop</field>-->
+<!--            <field name="extra_type">bonus</field>-->
+<!--            <field name="bonus_type">allowance</field>-->
+<!--        </record>-->
+
+        <!--Reward Types-->
+<!--        <record forcecreate="True" id="bonus_amount_vpp" model="hr.bonus.penalty.type">-->
+<!--            <field name="name">Amount VPP</field>-->
+<!--            <field name="extra_type">bonus</field>-->
+<!--            <field name="bonus_type">rewards</field>-->
+<!--        </record>-->
+<!--        <record forcecreate="True" id="bonus_comp_off_site" model="hr.bonus.penalty.type">-->
+<!--            <field name="name">Comp Off Site</field>-->
+<!--            <field name="extra_type">bonus</field>-->
+<!--            <field name="bonus_type">rewards</field>-->
+<!--        </record>-->
+<!--        <record forcecreate="True" id="bonus_comp_off_home" model="hr.bonus.penalty.type">-->
+<!--            <field name="name">Comp Off Home</field>-->
+<!--            <field name="extra_type">bonus</field>-->
+<!--            <field name="bonus_type">rewards</field>-->
+<!--        </record>-->
+<!--        <record forcecreate="True" id="bonus_overtime_site" model="hr.bonus.penalty.type">-->
+<!--            <field name="name">Over Time Site</field>-->
+<!--            <field name="extra_type">bonus</field>-->
+<!--            <field name="bonus_type">rewards</field>-->
+<!--        </record>-->
+<!--        <record forcecreate="True" id="bonus_overtime_home" model="hr.bonus.penalty.type">-->
+<!--            <field name="name">Over Time Home</field>-->
+<!--            <field name="extra_type">bonus</field>-->
+<!--            <field name="bonus_type">rewards</field>-->
+<!--        </record>-->
+<!--        <record forcecreate="True" id="bonus_vpp" model="hr.bonus.penalty.type">-->
+<!--            <field name="name">VPP</field>-->
+<!--            <field name="extra_type">bonus</field>-->
+<!--            <field name="bonus_type">rewards</field>-->
+<!--        </record>-->
+<!--        <record forcecreate="True" id="bonus_ramadan" model="hr.bonus.penalty.type">-->
+<!--            <field name="name">Ramadan</field>-->
+<!--            <field name="extra_type">bonus</field>-->
+<!--            <field name="bonus_type">rewards</field>-->
+<!--        </record>-->
+<!--        <record forcecreate="True" id="bonus_other" model="hr.bonus.penalty.type">-->
+<!--            <field name="name">Other</field>-->
+<!--            <field name="extra_type">bonus</field>-->
+<!--            <field name="bonus_type">rewards</field>-->
+<!--        </record>-->
+<!--        <record forcecreate="True" id="bonus_night_shift" model="hr.bonus.penalty.type">-->
+<!--            <field name="name">Night Shift</field>-->
+<!--            <field name="extra_type">bonus</field>-->
+<!--            <field name="bonus_type">rewards</field>-->
+<!--        </record>-->
+<!--        <record forcecreate="True" id="bonus_leave_balance" model="hr.bonus.penalty.type">-->
+<!--            <field name="name">Leave Balance</field>-->
+<!--            <field name="extra_type">bonus</field>-->
+<!--            <field name="bonus_type">rewards</field>-->
+<!--        </record>-->
+
+
+        <!-- Penalty Types-->
+<!--        <record forcecreate="True" id="penalty_absence" model="hr.bonus.penalty.type">-->
+<!--            <field name="name">Absence</field>-->
+<!--            <field name="extra_type">penalty</field>-->
+<!--        </record>-->
+<!--        <record forcecreate="True" id="penalty_other" model="hr.bonus.penalty.type">-->
+<!--            <field name="name">Other</field>-->
+<!--            <field name="extra_type">penalty</field>-->
+<!--        </record>-->
+<!--        <record forcecreate="True" id="penalty_ramadan" model="hr.bonus.penalty.type">-->
+<!--            <field name="name">Ramadan</field>-->
+<!--            <field name="extra_type">penalty</field>-->
+<!--        </record>-->
+<!--        <record forcecreate="True" id="penalty_advanced" model="hr.bonus.penalty.type">-->
+<!--            <field name="name">Advanced Payment</field>-->
+<!--            <field name="extra_type">penalty</field>-->
+<!--        </record>-->
+
+    </data>
+</odoo>

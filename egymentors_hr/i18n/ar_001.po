@@ -401,7 +401,6 @@ msgid "<strong>Work Location:</strong>"
 msgstr "<strong>مكان العمل:</strong>"
 
 #. module: egymentors_hr
-#: model:hr.bonus.penalty.type,name:egymentors_hr.penalty_absence
 #: model:ir.model.fields,field_description:egymentors_hr.field_hr_bonus_penalty__total_penalty_absence
 #: model:ir.model.fields,field_description:egymentors_hr.field_hr_payslip__total_penalty_absence
 msgid "Absence"
@@ -473,7 +472,6 @@ msgid "Advanced"
 msgstr ""
 
 #. module: egymentors_hr
-#: model:hr.bonus.penalty.type,name:egymentors_hr.penalty_advanced
 #: model:ir.model.fields,field_description:egymentors_hr.field_hr_bonus_penalty__total_penalty_advanced
 msgid "Advanced Payment"
 msgstr ""
@@ -501,7 +499,6 @@ msgid "Amount"
 msgstr "المبلغ"
 
 #. module: egymentors_hr
-#: model:hr.bonus.penalty.type,name:egymentors_hr.bonus_amount_vpp
 #: model:ir.model.fields,field_description:egymentors_hr.field_hr_bonus_penalty__total_bonus_amount_vpp
 #: model:ir.model.fields,field_description:egymentors_hr.field_hr_payslip__total_bonus_amount_vpp
 msgid "Amount VPP"
@@ -568,7 +565,6 @@ msgid "Basic Salary"
 msgstr "الراتب الاساسي"
 
 #. module: egymentors_hr
-#: model:hr.bonus.penalty.type,name:egymentors_hr.bonus_board_of_direction
 #: model:ir.model.fields,field_description:egymentors_hr.field_hr_bonus_penalty__total_bonus_direction
 #: model:ir.model.fields,field_description:egymentors_hr.field_hr_payslip__total_bonus_direction
 msgid "Board of Direction"
@@ -645,14 +641,12 @@ msgid "Cancelled"
 msgstr "لاغى"
 
 #. module: egymentors_hr
-#: model:hr.bonus.penalty.type,name:egymentors_hr.bonus_comp_off_home
 #: model:ir.model.fields,field_description:egymentors_hr.field_hr_bonus_penalty__total_bonus_comp_off_home
 #: model:ir.model.fields,field_description:egymentors_hr.field_hr_payslip__total_bonus_comp_off_home
 msgid "Comp Off Home"
 msgstr ""
 
 #. module: egymentors_hr
-#: model:hr.bonus.penalty.type,name:egymentors_hr.bonus_comp_off_site
 #: model:ir.model.fields,field_description:egymentors_hr.field_hr_bonus_penalty__total_bonus_comp_off_site
 #: model:ir.model.fields,field_description:egymentors_hr.field_hr_payslip__total_bonus_comp_off_site
 msgid "Comp Off Site"
@@ -1318,14 +1312,12 @@ msgid "Last Updated on"
 msgstr "آخر تحديث في"
 
 #. module: egymentors_hr
-#: model:hr.bonus.penalty.type,name:egymentors_hr.bonus_leadership
 #: model:ir.model.fields,field_description:egymentors_hr.field_hr_bonus_penalty__total_bonus_leadership
 #: model:ir.model.fields,field_description:egymentors_hr.field_hr_payslip__total_bonus_leadership
 msgid "Leadership"
 msgstr "إداره"
 
 #. module: egymentors_hr
-#: model:hr.bonus.penalty.type,name:egymentors_hr.bonus_leave_balance
 #: model:ir.model.fields,field_description:egymentors_hr.field_hr_bonus_penalty__total_bonus_leave_balance
 #: model:ir.model.fields,field_description:egymentors_hr.field_hr_payslip__total_bonus_leave_balance
 msgid "Leave Balance"
@@ -1449,7 +1441,6 @@ msgid "New Work Location"
 msgstr "مكان العمل الجديد"
 
 #. module: egymentors_hr
-#: model:hr.bonus.penalty.type,name:egymentors_hr.bonus_night_shift
 #: model:ir.model.fields,field_description:egymentors_hr.field_hr_bonus_penalty__total_bonus_night_shift
 #: model:ir.model.fields,field_description:egymentors_hr.field_hr_payslip__total_bonus_night_shift
 msgid "Night Shift"
@@ -1560,24 +1551,12 @@ msgid "Old Work Location"
 msgstr "مكان العمل السابق"
 
 #. module: egymentors_hr
-#: model:hr.bonus.penalty.type,name:egymentors_hr.bonus_other
-#: model:hr.bonus.penalty.type,name:egymentors_hr.penalty_other
 #: model:ir.model.fields,field_description:egymentors_hr.field_hr_bonus_penalty__total_bonus_other
 #: model:ir.model.fields,field_description:egymentors_hr.field_hr_bonus_penalty__total_penalty_other
 #: model:ir.model.fields,field_description:egymentors_hr.field_hr_payslip__total_bonus_other
 #: model:ir.model.fields,field_description:egymentors_hr.field_hr_payslip__total_penalty_other
 msgid "Other"
 msgstr "آخر"
-
-#. module: egymentors_hr
-#: model:hr.bonus.penalty.type,name:egymentors_hr.bonus_overtime_home
-msgid "Over Time Home"
-msgstr ""
-
-#. module: egymentors_hr
-#: model:hr.bonus.penalty.type,name:egymentors_hr.bonus_overtime_site
-msgid "Over Time Site"
-msgstr ""
 
 #. module: egymentors_hr
 #: model:ir.model.fields,field_description:egymentors_hr.field_hr_bonus_penalty__total_bonus_overtime_home
@@ -1702,7 +1681,6 @@ msgid "Print"
 msgstr "طباعه"
 
 #. module: egymentors_hr
-#: model:hr.bonus.penalty.type,name:egymentors_hr.bonus_production
 #: model:ir.model.fields,field_description:egymentors_hr.field_hr_bonus_penalty__total_bonus_production
 #: model:ir.model.fields,field_description:egymentors_hr.field_hr_payslip__total_bonus_production
 msgid "Production"
@@ -1753,8 +1731,6 @@ msgid "Raise Type"
 msgstr "نوع الزيادة"
 
 #. module: egymentors_hr
-#: model:hr.bonus.penalty.type,name:egymentors_hr.bonus_ramadan
-#: model:hr.bonus.penalty.type,name:egymentors_hr.penalty_ramadan
 #: model:ir.model.fields,field_description:egymentors_hr.field_hr_bonus_penalty__total_bonus_ramadan
 #: model:ir.model.fields,field_description:egymentors_hr.field_hr_bonus_penalty__total_penalty_ramadan
 #: model:ir.model.fields,field_description:egymentors_hr.field_hr_payslip__total_bonus_ramadan
@@ -1972,7 +1948,6 @@ msgid "Unread Messages Counter"
 msgstr "عداد الرسائل الغير مقرؤة"
 
 #. module: egymentors_hr
-#: model:hr.bonus.penalty.type,name:egymentors_hr.bonus_vpp
 #: model:ir.model.fields,field_description:egymentors_hr.field_hr_bonus_penalty__total_bonus_vpp
 #: model:ir.model.fields,field_description:egymentors_hr.field_hr_payslip__total_bonus_vpp
 msgid "VPP"
@@ -2012,7 +1987,6 @@ msgid "Work Location"
 msgstr "مكان العمل"
 
 #. module: egymentors_hr
-#: model:hr.bonus.penalty.type,name:egymentors_hr.bonus_workshop
 #: model:ir.model.fields,field_description:egymentors_hr.field_hr_bonus_penalty__total_bonus_workshop
 #: model:ir.model.fields,field_description:egymentors_hr.field_hr_payslip__total_bonus_workshop
 msgid "Workshop"
