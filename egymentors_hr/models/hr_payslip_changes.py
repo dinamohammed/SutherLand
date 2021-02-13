@@ -7,103 +7,8 @@ from odoo.tools import float_compare, float_is_zero
 from odoo.tools.safe_eval import safe_eval
 
 
-# Ahmed Salama Code Start ---->
-
-
 class HrPayslipInherit(models.Model):
     _inherit = 'hr.payslip'
-
-    # BONUS PART
-    # ####################################################
-    def _get_hr_bonuses(self):
-        bonus_line_obj = self.env['hr.bonus.line']
-        for payslip in self:
-            if payslip.employee_id:
-                domain = [('employee_id', '=', payslip.employee_id.id),
-                          ('state', '=', 'confirm')]
-                if payslip.date_from:
-                    domain.append(('date', '>=', payslip.date_from))
-                if payslip.date_to:
-                    domain.append(('date', '<=', payslip.date_to))
-                payslip.write({'hr_bonus_ids': [(6, 0, bonus_line_obj.search(domain).mapped('id'))]})
-
-    # @api.onchange('hr_bonus_ids')
-    # @api.depends('hr_bonus_ids.amount')
-    # def _get_total_bonus(self):
-    #     # Bonus Allowance
-    #     bonus_production = self.env.ref('egymentors_hr.bonus_production')
-    #     bonus_leadership = self.env.ref('egymentors_hr.bonus_leadership')
-    #     bonus_board_of_direction = self.env.ref('egymentors_hr.bonus_board_of_direction')
-    #     bonus_workshop = self.env.ref('egymentors_hr.bonus_workshop')
-    #     # Bonus Reward
-    #     bonus_comp_off_site = self.env.ref('egymentors_hr.bonus_comp_off_site')
-    #     bonus_comp_off_home = self.env.ref('egymentors_hr.bonus_comp_off_home')
-    #     bonus_overtime_site = self.env.ref('egymentors_hr.bonus_overtime_site')
-    #     bonus_overtime_home = self.env.ref('egymentors_hr.bonus_overtime_home')
-    #     bonus_vpp = self.env.ref('egymentors_hr.bonus_vpp')
-    #     bonus_ramadan = self.env.ref('egymentors_hr.bonus_ramadan')
-    #     bonus_other = self.env.ref('egymentors_hr.bonus_other')
-    #     bonus_night_shift = self.env.ref('egymentors_hr.bonus_night_shift')
-    #     bonus_leave_balance = self.env.ref('egymentors_hr.bonus_leave_balance')
-    #     bonus_amount_vpp = self.env.ref('egymentors_hr.bonus_amount_vpp')
-    #
-    #     for rec in self:
-    #         rec.total_bonuses = sum(l.amount for l in rec.hr_bonus_ids)
-    #         # Allowance
-    #         rec.total_bonus_production = sum(l.amount for l in
-    #                                          rec.hr_bonus_ids.filtered(lambda x: x.type_id == bonus_production))
-    #         rec.total_bonus_leadership = sum(l.amount for l in
-    #                                          rec.hr_bonus_ids.filtered(lambda x: x.type_id == bonus_leadership))
-    #         rec.total_bonus_workshop = sum(l.amount for l in
-    #                                        rec.hr_bonus_ids.filtered(lambda x: x.type_id == bonus_workshop))
-    #         rec.total_bonus_direction = sum(l.amount for l in
-    #                                         rec.hr_bonus_ids.filtered(lambda x: x.type_id == bonus_board_of_direction))
-    #         rec.total_bonuses_allowance = sum(l.amount for l in
-    #                                           rec.hr_bonus_ids.filtered(lambda x: x.type_id.bonus_type == 'allowance'))
-    #         # Rewards
-    #         rec.total_bonus_comp_off_site = sum(l.amount for l in
-    #                                             rec.hr_bonus_ids.filtered(lambda x: x.type_id == bonus_comp_off_site))
-    #         rec.total_bonus_comp_off_home = sum(l.amount for l in
-    #                                             rec.hr_bonus_ids.filtered(lambda x: x.type_id == bonus_comp_off_home))
-    #         rec.total_bonus_overtime_site = sum(l.amount for l in
-    #                                             rec.hr_bonus_ids.filtered(lambda x: x.type_id == bonus_overtime_site))
-    #         rec.total_bonus_overtime_home = sum(l.amount for l in
-    #                                             rec.hr_bonus_ids.filtered(lambda x: x.type_id == bonus_overtime_home))
-    #         rec.total_bonus_vpp = sum(l.amount for l in
-    #                                   rec.hr_bonus_ids.filtered(lambda x: x.type_id == bonus_vpp))
-    #         rec.total_bonus_ramadan = sum(l.amount for l in
-    #                                       rec.hr_bonus_ids.filtered(lambda x: x.type_id == bonus_ramadan))
-    #         rec.total_bonus_other = sum(l.amount for l in
-    #                                     rec.hr_bonus_ids.filtered(lambda x: x.type_id == bonus_other))
-    #         rec.total_bonus_night_shift = sum(l.amount for l in
-    #                                           rec.hr_bonus_ids.filtered(lambda x: x.type_id == bonus_night_shift))
-    #         rec.total_bonus_leave_balance = sum(l.amount for l in
-    #                                             rec.hr_bonus_ids.filtered(lambda x: x.type_id == bonus_leave_balance))
-    #         rec.total_bonus_amount_vpp = sum(l.amount for l in
-    #                                          rec.hr_bonus_ids.filtered(lambda x: x.type_id == bonus_amount_vpp))
-    #
-    #         rec.total_bonuses_rewards = sum(l.amount for l in rec.hr_bonus_ids.
-    #                                         filtered(lambda x: x.type_id.bonus_type == 'rewards'))
-
-    # @api.onchange('hr_penalty_ids')
-    # @api.depends('hr_penalty_ids.days_num')
-    # def _get_total_penalty(self):
-    #     # Penalty
-    #     penalty_other = self.env.ref('egymentors_hr.penalty_other')
-    #     penalty_ramadan = self.env.ref('egymentors_hr.penalty_ramadan')
-    #     penalty_absence = self.env.ref('egymentors_hr.penalty_absence')
-    #     penalty_advanced = self.env.ref('egymentors_hr.penalty_advanced')
-    #     for rec in self:
-    #         rec.total_penalties = sum(l.days_num for l in rec.hr_penalty_ids)
-    #         # Penalty
-    #         rec.total_penalty_other = sum(l.days_num for l in
-    #                                       rec.hr_penalty_ids.filtered(lambda x: x.type_id == penalty_other))
-    #         rec.total_penalty_absence = sum(l.days_num for l in
-    #                                         rec.hr_penalty_ids.filtered(lambda x: x.type_id == penalty_absence))
-    #         rec.total_penalty_ramadan = sum(l.days_num for l in
-    #                                         rec.hr_penalty_ids.filtered(lambda x: x.type_id == penalty_ramadan))
-    #         rec.total_penalty_advanced = sum(l.days_num for l in
-    #                                          rec.hr_penalty_ids.filtered(lambda x: x.type_id == penalty_advanced))
 
     @api.onchange('hr_trans_lines_ids')
     @api.depends('hr_trans_lines_ids.int_amount', 'hr_trans_lines_ids.ext_amount')
@@ -113,21 +18,19 @@ class HrPayslipInherit(models.Model):
             rec.total_trans_internal = sum(l.int_amount for l in rec.hr_trans_lines_ids)
             rec.total_trans_external = sum(l.ext_amount for l in rec.hr_trans_lines_ids)
 
-    @api.onchange('hr_award_profit_ids')
-    @api.depends('hr_award_profit_ids.amount')
-    def _get_total_award_profit(self):
-        for rec in self:
-            rec.total_award_profit = sum(l.amount for l in rec.hr_award_profit_ids)
-            rec.total_award = sum(l.amount for l in
-                                  rec.hr_award_profit_ids.filtered(lambda x: x.award_profit_id.extra_type == 'award'))
-            rec.total_profit = sum(l.amount for l in
-                                   rec.hr_award_profit_ids.filtered(lambda x: x.award_profit_id.extra_type == 'profit'))
-
-    hr_bonus_ids = fields.One2many('hr.bonus.line', 'payslip_id', "Bonuses")
-    # hr_penalty_ids = fields.One2many('hr.bonus.penalty.line', 'payslip_id', "Penalties",
-    #                                  domain=[('extra_type', '=', 'penalty')])
     method = fields.Selection(string="Method", selection=[('gross', 'Gross'), ('net', 'Net')], required=True,
                               default='gross')
+    hr_bonus_ids = fields.One2many(comodel_name='hr.bonus.line', inverse_name='payslip_id', string="Bonuses")
+    hr_penalty_ids = fields.One2many(comodel_name='hr.penalty.line', inverse_name='payslip_id', string="Penalties")
+    hr_trans_lines_ids = fields.One2many(comodel_name='hr.trans.allowance.line', inverse_name='payslip_id',
+                                         string="Transportation Allowance")
+    hr_award_profit_ids = fields.One2many(comodel_name='hr.award.profit.line', inverse_name='payslip_id',
+                                          string="Award/Profit")
+    total_bonus_ids = fields.One2many(comodel_name="hr.total.bonus", inverse_name="payslip_id", string="Bonus Totals",
+                                      compute='_get_hr_bonuses', store=True)
+    total_penalty_ids = fields.One2many(comodel_name="hr.total.penalty", inverse_name="payslip_id",
+                                        string="Penalty Totals", compute='_get_hr_penalties', store=True)
+
     # # Bonus Allowance
     # total_bonuses = fields.Float("Total Bonuses", compute=_get_total_bonus)
     # total_bonuses_allowance = fields.Float("Total Bonuses(Allowance)", compute=_get_total_bonus)
@@ -155,39 +58,77 @@ class HrPayslipInherit(models.Model):
     # total_penalty_ramadan = fields.Float("Ramadan", compute=_get_total_penalty)
     # total_penalty_advanced = fields.Float("Advanced", compute=_get_total_penalty)
     # Transportation Allowance PART
-    # ####################################################
-    hr_trans_lines_ids = fields.One2many('hr.trans.allowance.line', 'payslip_id', "Transportation Allowance")
-    total_trans_allowance = fields.Float("Total Trans. Allowance", compute=_get_total_trans_allowance)
-    total_trans_internal = fields.Float("Internal", compute=_get_total_trans_allowance)
-    total_trans_external = fields.Float("External", compute=_get_total_trans_allowance)
-    hr_award_profit_ids = fields.One2many('hr.award.profit.line', 'payslip_id', "Award/Profit")
-    total_award_profit = fields.Float("Total Award/Profit", compute=_get_total_award_profit)
-    total_award = fields.Float("Award", compute=_get_total_award_profit)
-    total_profit = fields.Float("Profit", compute=_get_total_award_profit)
+    # ####################################################0 = {tuple: 3} ('employee_id', '=', 20)
+    # total_trans_allowance = fields.Float("Total Trans. Allowance", compute=_get_total_trans_allowance)
+    # total_trans_internal = fields.Float("Internal", compute=_get_total_trans_allowance)
+    # total_trans_external = fields.Float("External", compute=_get_total_trans_allowance)
+    # total_award_profit = fields.Float("Total Award/Profit", compute=_get_total_award_profit)
+    # total_award = fields.Float("Award", compute=_get_total_award_profit)
+    # total_profit = fields.Float("Profit", compute=_get_total_award_profit)
 
-    def _get_hr_penalties(self):
-        # penalty_fixed = self.env.ref('egymentors_hr.penalty_fixed')
-        # penalty_line_obj = self.env['hr.bonus.penalty.line']
+    def _get_hr_bonuses(self):
+        bonus_line_obj = self.env['hr.bonus.line']
+        domain = []
         for payslip in self:
             if payslip.employee_id:
-                # Non Fixed Types
                 domain = [('employee_id', '=', payslip.employee_id.id),
-                          ('state', '=', 'confirm'), ('extra_type', '=', 'penalty')]
+                          ('state', '=', 'confirm')]
                 if payslip.date_from:
                     domain.append(('date', '>=', payslip.date_from))
                 if payslip.date_to:
                     domain.append(('date', '<=', payslip.date_to))
-                # penalty_line_ids = penalty_line_obj.search(domain).mapped('id')
-                # # Fixed Types
-                # penalty_fixed_ids = penalty_line_obj.search([('type_id', '=', penalty_fixed.id),
-                #                                              ('employee_id', '=', payslip.employee_id.id),
-                #                                              ('state', '=', 'confirm'),
-                #                                              ('date', '<=', payslip.date_from),
-                #                                              ('date_to', '>=', payslip.date_from)])
-                # if penalty_fixed_ids:
-                # 	for l in penalty_fixed_ids:
-                # 		penalty_line_ids.append(l.id)
-                # payslip.write({'hr_penalty_ids': [(6, 0, penalty_line_ids)]})
+                payslip.write({'hr_bonus_ids': [(6, 0, bonus_line_obj.search(domain).mapped('id'))]})
+            # grp_bonus_lines = bonus_line_obj.read_group(domain,
+            #                                             fields=['bonus_id', 'bonus_type_id', 'method', 'amount:sum'],
+            #                                             groupby=['bonus_id', 'bonus_type_id', 'method'],
+            #                                             orderby="bonus_type_id desc, method desc",
+            #                                             lazy=False)
+            # payslip.total_bonus_ids = False
+            # total_list = []
+            # for total in grp_bonus_lines:
+            #     total_list.append((0, 0, {
+            #         'bonus_id': total['bonus_id'][0],
+            #         'bonus_type_id': total['bonus_type_id'][0],
+            #         'method': total['method'],
+            #         'total': total['amount'],
+            #     }))
+            # payslip.write({'total_bonus_ids': total_list})
+
+            #
+            # # total_list = []
+            #
+            # for total in grp_bonus_lines:
+            #     # val.append((0, 0, {
+            #     #     'bonus_id': 5,
+            #     #     'bonus_type_id': total['bonus_type_id'][0],
+            #     #     'method': total['method'],
+            #     #     'total': total['amount'],
+            #     # }))
+            #     payslip.total_bonus_ids.create({
+            #         'bonus_id': total['bonus_id'][0],
+            #         'bonus_type_id': total['bonus_type_id'][0],
+            #         'method': total['method'],
+            #         'total': total['amount'],
+            #     })
+            #     # self.env.cr.commit()
+            #     # total_list.append((0, 0, new_record))
+            # # self.write({
+            # #     'total_bonus_ids': (0, 0, total_list)
+            # # })
+            # # self.env.cr.commit()
+            # # payslip.create({'total_bonus_ids': total_list})
+
+    def _get_hr_penalties(self):
+        penalty_line_obj = self.env['hr.penalty.line']
+        for payslip in self:
+            if payslip.employee_id:
+                domain = [('employee_id', '=', payslip.employee_id.id), ('state', '=', 'confirm')]
+                if payslip.date_from:
+                    domain.append(('date', '>=', payslip.date_from))
+                if payslip.date_to:
+                    domain.append(('date', '<=', payslip.date_to))
+                penalty_line_ids = penalty_line_obj.search(domain).mapped('id')
+                payslip.write({'hr_penalty_ids': [(6, 0, penalty_line_ids)]})
 
     def _get_hr_trans_allowance(self):
         trans_line_obj = self.env['hr.trans.allowance.line']
@@ -215,7 +156,7 @@ class HrPayslipInherit(models.Model):
         :return: SUPER
         """
         lines_dicts = [{'lines': self.hr_bonus_ids, 'inverse_name': 'bonus_id'},
-                       # {'lines': self.hr_penalty_ids, 'inverse_name': 'bonus_penalty_id'},
+                       {'lines': self.hr_penalty_ids, 'inverse_name': 'penalty_id'},
                        {'lines': self.hr_award_profit_ids, 'inverse_name': 'award_profit_id'},
                        {'lines': self.hr_trans_lines_ids, 'inverse_name': 'trans_id'}]
         for lines_dict in lines_dicts:
@@ -257,8 +198,6 @@ class HrPayslipInherit(models.Model):
                     'res_id': payslip.id
                 })
 
-    # BONUS PART
-    # ####################################################
     def _get_hr_award_profit(self):
         line_obj = self.env['hr.award.profit.line']
         for payslip in self:
@@ -339,6 +278,94 @@ class HrPayslipInherit(models.Model):
             list_of_totals.append(round(total, 2))
         return list_of_totals
 
+    # @api.onchange('hr_award_profit_ids')
+    # @api.depends('hr_award_profit_ids.amount')
+    # def _get_total_award_profit(self):
+    #     for rec in self:
+    #         rec.total_award_profit = sum(l.amount for l in rec.hr_award_profit_ids)
+    #         rec.total_award = sum(l.amount for l in
+    #                               rec.hr_award_profit_ids.filtered(lambda x: x.award_profit_id.extra_type == 'award'))
+    #         rec.total_profit = sum(l.amount for l in
+    #                                rec.hr_award_profit_ids.filtered(lambda x: x.award_profit_id.extra_type == 'profit'))
+
+    # @api.onchange('hr_bonus_ids')
+    # @api.depends('hr_bonus_ids.amount')
+    # def _get_total_bonus(self):
+    #     # Bonus Allowance
+    #     bonus_production = self.env.ref('egymentors_hr.bonus_production')
+    #     bonus_leadership = self.env.ref('egymentors_hr.bonus_leadership')
+    #     bonus_board_of_direction = self.env.ref('egymentors_hr.bonus_board_of_direction')
+    #     bonus_workshop = self.env.ref('egymentors_hr.bonus_workshop')
+    #     # Bonus Reward
+    #     bonus_comp_off_site = self.env.ref('egymentors_hr.bonus_comp_off_site')
+    #     bonus_comp_off_home = self.env.ref('egymentors_hr.bonus_comp_off_home')
+    #     bonus_overtime_site = self.env.ref('egymentors_hr.bonus_overtime_site')
+    #     bonus_overtime_home = self.env.ref('egymentors_hr.bonus_overtime_home')
+    #     bonus_vpp = self.env.ref('egymentors_hr.bonus_vpp')
+    #     bonus_ramadan = self.env.ref('egymentors_hr.bonus_ramadan')
+    #     bonus_other = self.env.ref('egymentors_hr.bonus_other')
+    #     bonus_night_shift = self.env.ref('egymentors_hr.bonus_night_shift')
+    #     bonus_leave_balance = self.env.ref('egymentors_hr.bonus_leave_balance')
+    #     bonus_amount_vpp = self.env.ref('egymentors_hr.bonus_amount_vpp')
+    #
+    #     for rec in self:
+    #         rec.total_bonuses = sum(l.amount for l in rec.hr_bonus_ids)
+    #         # Allowance
+    #         rec.total_bonus_production = sum(l.amount for l in
+    #                                          rec.hr_bonus_ids.filtered(lambda x: x.type_id == bonus_production))
+    #         rec.total_bonus_leadership = sum(l.amount for l in
+    #                                          rec.hr_bonus_ids.filtered(lambda x: x.type_id == bonus_leadership))
+    #         rec.total_bonus_workshop = sum(l.amount for l in
+    #                                        rec.hr_bonus_ids.filtered(lambda x: x.type_id == bonus_workshop))
+    #         rec.total_bonus_direction = sum(l.amount for l in
+    #                                         rec.hr_bonus_ids.filtered(lambda x: x.type_id == bonus_board_of_direction))
+    #         rec.total_bonuses_allowance = sum(l.amount for l in
+    #                                           rec.hr_bonus_ids.filtered(lambda x: x.type_id.bonus_type == 'allowance'))
+    #         # Rewards
+    #         rec.total_bonus_comp_off_site = sum(l.amount for l in
+    #                                             rec.hr_bonus_ids.filtered(lambda x: x.type_id == bonus_comp_off_site))
+    #         rec.total_bonus_comp_off_home = sum(l.amount for l in
+    #                                             rec.hr_bonus_ids.filtered(lambda x: x.type_id == bonus_comp_off_home))
+    #         rec.total_bonus_overtime_site = sum(l.amount for l in
+    #                                             rec.hr_bonus_ids.filtered(lambda x: x.type_id == bonus_overtime_site))
+    #         rec.total_bonus_overtime_home = sum(l.amount for l in
+    #                                             rec.hr_bonus_ids.filtered(lambda x: x.type_id == bonus_overtime_home))
+    #         rec.total_bonus_vpp = sum(l.amount for l in
+    #                                   rec.hr_bonus_ids.filtered(lambda x: x.type_id == bonus_vpp))
+    #         rec.total_bonus_ramadan = sum(l.amount for l in
+    #                                       rec.hr_bonus_ids.filtered(lambda x: x.type_id == bonus_ramadan))
+    #         rec.total_bonus_other = sum(l.amount for l in
+    #                                     rec.hr_bonus_ids.filtered(lambda x: x.type_id == bonus_other))
+    #         rec.total_bonus_night_shift = sum(l.amount for l in
+    #                                           rec.hr_bonus_ids.filtered(lambda x: x.type_id == bonus_night_shift))
+    #         rec.total_bonus_leave_balance = sum(l.amount for l in
+    #                                             rec.hr_bonus_ids.filtered(lambda x: x.type_id == bonus_leave_balance))
+    #         rec.total_bonus_amount_vpp = sum(l.amount for l in
+    #                                          rec.hr_bonus_ids.filtered(lambda x: x.type_id == bonus_amount_vpp))
+    #
+    #         rec.total_bonuses_rewards = sum(l.amount for l in rec.hr_bonus_ids.
+    #                                         filtered(lambda x: x.type_id.bonus_type == 'rewards'))
+
+    # @api.onchange('hr_penalty_ids')
+    # @api.depends('hr_penalty_ids.days_num')
+    # def _get_total_penalty(self):
+    #     # Penalty
+    #     penalty_other = self.env.ref('egymentors_hr.penalty_other')
+    #     penalty_ramadan = self.env.ref('egymentors_hr.penalty_ramadan')
+    #     penalty_absence = self.env.ref('egymentors_hr.penalty_absence')
+    #     penalty_advanced = self.env.ref('egymentors_hr.penalty_advanced')
+    #     for rec in self:
+    #         rec.total_penalties = sum(l.days_num for l in rec.hr_penalty_ids)
+    #         # Penalty
+    #         rec.total_penalty_other = sum(l.days_num for l in
+    #                                       rec.hr_penalty_ids.filtered(lambda x: x.type_id == penalty_other))
+    #         rec.total_penalty_absence = sum(l.days_num for l in
+    #                                         rec.hr_penalty_ids.filtered(lambda x: x.type_id == penalty_absence))
+    #         rec.total_penalty_ramadan = sum(l.days_num for l in
+    #                                         rec.hr_penalty_ids.filtered(lambda x: x.type_id == penalty_ramadan))
+    #         rec.total_penalty_advanced = sum(l.days_num for l in
+    #                                          rec.hr_penalty_ids.filtered(lambda x: x.type_id == penalty_advanced))
+
 
 class HrPayslipRun(models.Model):
     _inherit = 'hr.payslip.run'
@@ -349,4 +376,3 @@ class HrPayslipRun(models.Model):
     company_id = fields.Many2one('res.company', string='Company')
     department_id = fields.Many2one('hr.department', "Department")
 
-# Ahmed Salama Code End.

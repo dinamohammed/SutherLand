@@ -1,6 +1,5 @@
 # -*- coding: utf-8 -*-
 from odoo import models, fields, api, _
-from itertools import groupby
 
 _STATES = [('draft', 'Draft'), ('confirm', 'Confirmed'), ('done', 'Done'), ('cancel', 'Cancelled')]
 
@@ -10,7 +9,7 @@ class HRBonus(models.Model):
     _description = 'HR Bonus'
     _inherit = ['mail.thread', 'image.mixin']
 
-    name = fields.Char(string="Name")
+    name = fields.Char(string="Name", translate=True)
     bonus_categ_id = fields.Many2one(comodel_name="hr.bonus.categ", string="Bonus Category")
     date = fields.Date(string="Date", default=fields.Date.today(), readonly=True,
                        states={'draft': [('readonly', False)]})
