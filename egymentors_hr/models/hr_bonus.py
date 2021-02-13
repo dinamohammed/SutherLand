@@ -28,7 +28,7 @@ class HRBonus(models.Model):
         """
         if self.bonus_line_ids:
             for rec in self:
-                grp_bonus_lines = self.env['hr.bonus.line'].read_group([('bonus_id', '=', self._origin.id)],
+                grp_bonus_lines = self.env['hr.bonus.line'].read_group([('bonus_id', '=', rec.id)],
                                                                        fields=['bonus_type_id', 'method', 'amount:sum'],
                                                                        groupby=['bonus_type_id', 'method'],
                                                                        orderby="bonus_type_id desc, method desc",
@@ -130,7 +130,8 @@ class HRTotalBonus(models.Model):
     _description = 'New Description'
 
     name = fields.Char()
-    bonus_id = fields.Many2one(comodel_name='hr.bonus', string="Bonus")
+    bonus_id = fields.Many2one(comodel_name='hr.bonus', string="Bonus", ondelete='cascade')
+    payslip_id = fields.Many2one(comodel_name='hr.payslip', string="Payslip")
     method = fields.Selection(string="Method", selection=[('gross', 'Gross'), ('net', 'Net')], required=True,
                               default='gross')
     bonus_type_id = fields.Many2one(comodel_name='hr.bonus.type', string="Bonus Type", required=True)

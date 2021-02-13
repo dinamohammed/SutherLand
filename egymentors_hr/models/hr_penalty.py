@@ -30,7 +30,7 @@ class HRPenalty(models.Model):
         """
         if self.penalty_line_ids:
             for rec in self:
-                grp_penalty_lines = self.env['hr.penalty.line'].read_group([('penalty_id', '=', self._origin.id)],
+                grp_penalty_lines = self.env['hr.penalty.line'].read_group([('penalty_id', '=', rec.id)],
                                                                            fields=['penalty_type_id', 'method',
                                                                                    'amount:sum'],
                                                                            groupby=['penalty_type_id', 'method'],
@@ -133,7 +133,7 @@ class HRTotalPenalty(models.Model):
     _description = 'New Description'
 
     name = fields.Char()
-    penalty_id = fields.Many2one(comodel_name='hr.penalty', string="Penalty")
+    penalty_id = fields.Many2one(comodel_name='hr.penalty', string="Penalty", ondelete='cascade')
     payslip_id = fields.Many2one(comodel_name='hr.payslip', string="Payslip")
     method = fields.Selection(string="Method", selection=[('gross', 'Gross'), ('net', 'Net')], required=True,
                               default='gross')
