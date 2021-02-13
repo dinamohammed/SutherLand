@@ -56,7 +56,7 @@
                             <group>
                                 <group class="oe_right oe_subtotal_footer">
                                     <field name="total_bonus_ids" nolabel="1">
-                                        <tree create="false" edit="false" optional="hide">
+                                        <tree create="false" edit="false" delete="false">
                                             <field name="bonus_type_id" class="font-weight-bold"/>
                                             <field name="method"/>
                                             <field name="total" sum="Total"/>
