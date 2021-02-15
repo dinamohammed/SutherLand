@@ -37,7 +37,7 @@ class HRBonus(models.Model):
                 val = []
                 for total in grp_bonus_lines:
                     val.append((0, 0, {
-                        'bonus_id': self._origin.id,
+                        'bonus_id': rec._origin.id,
                         'bonus_type_id': total['bonus_type_id'][0],
                         'method': total['method'],
                         'total': total['amount'],
@@ -98,7 +98,7 @@ class HRBonusLine(models.Model):
     name = fields.Char(string="Name")
     bonus_id = fields.Many2one(comodel_name='hr.bonus', string="Bonus")
     payslip_id = fields.Many2one(comodel_name='hr.payslip', string="Payslip")
-    date = fields.Date(related='bonus_id.date')
+    date = fields.Date(related='bonus_id.date', string="Date")
     employee_id = fields.Many2one(comodel_name='hr.employee', string="Employee", required=True)
     bonus_type_id = fields.Many2one(comodel_name='hr.bonus.type', string="Type", required=True)
     method = fields.Selection(string="Method", selection=[('gross', 'Gross'), ('net', 'Net')], required=True,
@@ -126,8 +126,8 @@ class HRBonusCategory(models.Model):
 
 class HRTotalBonus(models.Model):
     _name = 'hr.total.bonus'
-    _rec_name = 'name'
     _description = 'New Description'
+    _order = "bonus_type_id, method"
 
     name = fields.Char()
     bonus_id = fields.Many2one(comodel_name='hr.bonus', string="Bonus", ondelete='cascade')
