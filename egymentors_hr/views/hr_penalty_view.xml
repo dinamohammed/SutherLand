@@ -56,7 +56,6 @@
                                     <field name="date" invisible="1"/>
                                     <field name="penalty_type_id"
                                            domain="[('penalty_categ_id','=',parent.penalty_categ_id)]"/>
-                                    <field name="method"/>
                                     <field name="amount"/>
                                     <field name="notes"/>
                                     <field name="state" readonly="1"/>
@@ -69,7 +68,6 @@
                                     <field name="total_penalty_ids" nolabel="1">
                                         <tree create="false" edit="false" delete="false">
                                             <field name="penalty_type_id" class="font-weight-bold"/>
-                                            <field name="method"/>
                                             <field name="total" sum="Total"/>
                                         </tree>
                                     </field>

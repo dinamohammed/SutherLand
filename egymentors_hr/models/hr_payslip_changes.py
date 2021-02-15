@@ -10,14 +10,6 @@ from odoo.tools.safe_eval import safe_eval
 class HrPayslipInherit(models.Model):
     _inherit = 'hr.payslip'
 
-    @api.onchange('hr_trans_lines_ids')
-    @api.depends('hr_trans_lines_ids.int_amount', 'hr_trans_lines_ids.ext_amount')
-    def _get_total_trans_allowance(self):
-        for rec in self:
-            rec.total_trans_allowance = sum(l.int_amount + l.ext_amount for l in rec.hr_trans_lines_ids)
-            rec.total_trans_internal = sum(l.int_amount for l in rec.hr_trans_lines_ids)
-            rec.total_trans_external = sum(l.ext_amount for l in rec.hr_trans_lines_ids)
-
     method = fields.Selection(string="Method", selection=[('gross', 'Gross'), ('net', 'Net')], required=True,
                               default='gross')
     hr_bonus_line_ids = fields.One2many(comodel_name='hr.bonus.line', inverse_name='payslip_id', string="Bonuses")
@@ -30,41 +22,9 @@ class HrPayslipInherit(models.Model):
                                       compute='_get_hr_bonuses', store=True)
     total_penalty_ids = fields.One2many(comodel_name="hr.total.penalty", inverse_name="payslip_id",
                                         string="Penalty Totals", compute='_get_hr_penalties', store=True)
-
-    @api.model
-    def create(self, vals):
-        contract_id = vals.get('contract_id')
-        if contract_id and not vals.get('struct_id'):
-            vals['struct_id'] = self.env['hr.contract'].browse(contract_id).structure_type_id.default_struct_id.id
-        res = super(HrPayslipInherit, self).create(vals)
-        for payslip in res:
-            if payslip.employee_id:
-                bonus_line_obj = self.env['hr.bonus.line']
-                domain = [('employee_id', '=', payslip.employee_id.id),
-                          ('state', '=', 'confirm')]
-                if payslip.date_from:
-                    domain.append(('date', '>=', payslip.date_from))
-                if payslip.date_to:
-                    domain.append(('date', '<=', payslip.date_to))
-                grp_bonus_lines = bonus_line_obj.read_group(domain,
-                                                            fields=['bonus_id', 'bonus_type_id', 'method',
-                                                                    'amount:sum'],
-                                                            groupby=['bonus_id', 'bonus_type_id', 'method'],
-                                                            orderby="bonus_type_id desc, method desc",
-                                                            lazy=False)
-                payslip.total_bonus_ids = False
-                total_list = []
-                for total in grp_bonus_lines:
-                    if total['bonus_id']:
-                        total_list.append((0, 0, {
-                            'payslip_id': res.id,
-                            'bonus_id': total['bonus_id'][0],
-                            'bonus_type_id': total['bonus_type_id'][0],
-                            'method': total['method'],
-                            'total': total['amount'],
-                        }))
-                payslip.total_bonus_ids = total_list
-        return res
+    total_award_profit = fields.Float("Total Award/Profit", compute='_get_total_award_profit')
+    total_award = fields.Float("Award", compute='_get_total_award_profit')
+    total_profit = fields.Float("Profit", compute='_get_total_award_profit')
 
     @api.onchange('employee_id', 'struct_id', 'contract_id', 'date_from', 'date_to')
     def _onchange_employee(self):
@@ -85,6 +45,8 @@ class HrPayslipInherit(models.Model):
             if payslip.date_to:
                 domain.append(('date', '<=', payslip.date_to))
             payslip.write({'hr_bonus_line_ids': [(6, 0, bonus_line_obj.search(domain).mapped('id'))]})
+            if payslip.id or payslip._origin.id:
+                self.compute_total_bonus(value=self)
 
     def _get_hr_penalties(self):
         penalty_line_obj = self.env['hr.penalty.line']
@@ -96,6 +58,8 @@ class HrPayslipInherit(models.Model):
                 domain.append(('date', '<=', payslip.date_to))
             penalty_line_ids = penalty_line_obj.search(domain).mapped('id')
             payslip.write({'hr_penalty_line_ids': [(6, 0, penalty_line_ids)]})
+            if payslip.id or payslip._origin.id:
+                self.compute_total_penalty(value=self)
 
     def _get_hr_trans_allowance(self):
         trans_line_obj = self.env['hr.trans.allowance.line']
@@ -118,6 +82,88 @@ class HrPayslipInherit(models.Model):
                 domain.append(('date', '<=', payslip.date_to))
             payslip.write({'hr_award_profit_ids': [(6, 0, line_obj.search(domain).mapped('id'))]})
 
+    @api.model
+    def create(self, vals):
+        contract_id = vals.get('contract_id')
+        if contract_id and not vals.get('struct_id'):
+            vals['struct_id'] = self.env['hr.contract'].browse(contract_id).structure_type_id.default_struct_id.id
+        res = super(HrPayslipInherit, self).create(vals)
+        res.compute_total_bonus(res)
+        res.compute_total_penalty(res)
+        return res
+
+    def write(self, values):
+        if values.get('employee_id', False):
+            value = [self, values]
+            self.compute_total_bonus(value=value, action='write')
+            self.compute_total_penalty(value=value, action='write')
+        return super(HrPayslipInherit, self).write(values)
+
+    def compute_total_bonus(self, value, action=False):
+        if action == 'write':
+            payslip_id = value[1]['employee_id']
+            value = value[0]
+        else:
+            payslip_id = value.id if value.id else value._origin.id
+        for payslip in value:
+            if payslip.employee_id:
+                bonus_line_obj = self.env['hr.bonus.line']
+                domain = [('employee_id', '=', payslip.employee_id.id),
+                          ('state', '=', 'confirm')]
+                if payslip.date_from:
+                    domain.append(('date', '>=', payslip.date_from))
+                if payslip.date_to:
+                    domain.append(('date', '<=', payslip.date_to))
+                grp_bonus_lines = bonus_line_obj.read_group(domain,
+                                                            fields=['bonus_id', 'bonus_type_id', 'method',
+                                                                    'amount:sum'],
+                                                            groupby=['bonus_id', 'bonus_type_id', 'method'],
+                                                            orderby="bonus_type_id, method",
+                                                            lazy=False)
+                payslip.total_bonus_ids = False
+                total_list = []
+                for total in grp_bonus_lines:
+                    total_list.append((0, 0, {
+                        'payslip_id': payslip_id,
+                        'bonus_id': total['bonus_id'][0],
+                        'bonus_type_id': total['bonus_type_id'][0],
+                        'method': total['method'],
+                        'total': total['amount'],
+                    }))
+                payslip.total_bonus_ids = total_list
+
+    def compute_total_penalty(self, value, action=False):
+        if action == 'write':
+            payslip_id = value[1]['employee_id']
+            value = value[0]
+        else:
+            payslip_id = value.id if value.id else value._origin.id
+        for payslip in value:
+            if payslip.employee_id:
+                penalty_line_obj = self.env['hr.penalty.line']
+                domain = [('employee_id', '=', payslip.employee_id.id),
+                          ('state', '=', 'confirm')]
+                if payslip.date_from:
+                    domain.append(('date', '>=', payslip.date_from))
+                if payslip.date_to:
+                    domain.append(('date', '<=', payslip.date_to))
+                grp_penalty_lines = penalty_line_obj.read_group(domain,
+                                                                fields=['penalty_id', 'penalty_type_id',
+                                                                        'amount:sum'],
+                                                                groupby=['penalty_id', 'penalty_type_id'],
+                                                                orderby="penalty_type_id",
+                                                                lazy=False)
+                payslip.total_penalty_ids = False
+                total_list = []
+                for total in grp_penalty_lines:
+                    total_list.append((0, 0, {
+                        'payslip_id': payslip_id,
+                        'penalty_id': total['penalty_id'][0],
+                        'penalty_type_id': total['penalty_type_id'][0],
+                        'total': total['amount'],
+                    }))
+                payslip.total_penalty_ids = total_list
+
     def action_payslip_done(self):
         """
         Append Function to add extra action action_set_line_confirm
@@ -139,8 +185,12 @@ class HrPayslipInherit(models.Model):
         for line in lines_dict['lines']:
             line.write({'state': 'done'})
             main_field = getattr(line, lines_dict['inverse_name'])
-            if all(state == 'done' for state in main_field.bonus_line_ids.mapped('state')):
-                main_field.write({'state': 'done'})
+            if main_field._name == 'hr.bonus':
+                if all(state == 'done' for state in main_field.bonus_line_ids.mapped('state')):
+                    main_field.write({'state': 'done'})
+            elif main_field._name == 'hr.penalty':
+                if all(state == 'done' for state in main_field.penalty_line_ids.mapped('state')):
+                    main_field.write({'state': 'done'})
 
     def default_action_payslip_done(self):
         if any(slip.state == 'cancel' for slip in self):
@@ -234,6 +284,24 @@ class HrPayslipInherit(models.Model):
                                                                   ('slip_id', 'in', self.ids)]))
             list_of_totals.append(round(total, 2))
         return list_of_totals
+
+    @api.onchange('hr_award_profit_ids')
+    @api.depends('hr_award_profit_ids.amount')
+    def _get_total_award_profit(self):
+        for rec in self:
+            rec.total_award_profit = sum(l.amount for l in rec.hr_award_profit_ids)
+            rec.total_award = sum(l.amount for l in
+                                  rec.hr_award_profit_ids.filtered(lambda x: x.award_profit_id.extra_type == 'award'))
+            rec.total_profit = sum(l.amount for l in
+                                   rec.hr_award_profit_ids.filtered(lambda x: x.award_profit_id.extra_type == 'profit'))
+
+    # @api.onchange('hr_trans_lines_ids')
+    # @api.depends('hr_trans_lines_ids.int_amount', 'hr_trans_lines_ids.ext_amount')
+    # def _get_total_trans_allowance(self):
+    #     for rec in self:
+    #         rec.total_trans_allowance = sum(l.int_amount + l.ext_amount for l in rec.hr_trans_lines_ids)
+    #         rec.total_trans_internal = sum(l.int_amount for l in rec.hr_trans_lines_ids)
+    #         rec.total_trans_external = sum(l.ext_amount for l in rec.hr_trans_lines_ids)
 
 
 class HrPayslipRun(models.Model):
