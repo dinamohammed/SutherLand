@@ -31,7 +31,6 @@
     'version': '10.0',
     'depends': ['report_xlsx', 'hr', 'tags__rule', 'hr_payroll_account'],
     'data': [
-        'data/hr_bonus_data.xml',
         'data/hr_grade_date.xml',
         
         'security/ir.model.access.csv',

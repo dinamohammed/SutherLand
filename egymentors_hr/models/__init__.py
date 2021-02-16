@@ -1,7 +1,6 @@
 # -*- coding: utf-8 -*-
 from . import res_config_changes
 from . import hr_employee_changes
-from . import hr_bonus_penalty_old
 from . import hr_payslip_changes
 from . import hr_promotion
 from . import hr_transfer
