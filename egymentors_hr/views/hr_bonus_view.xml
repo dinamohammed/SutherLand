@@ -109,4 +109,19 @@
               action="action_hr_bonus"
               sequence="3"/>
 
+    <record id="act_hr_bonus_type" model="ir.actions.act_window">
+        <field name="name">Bonus Types</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">hr.bonus.type</field>
+        <field name="view_mode">tree,form</field>
+        <field name="help" type="html">
+            <p class="oe_view_nocontent_create">
+                Add New penalty Type
+            </p>
+        </field>
+    </record>
+    <menuitem id="menu_hr_bonus_type"
+              parent="hr.menu_human_resources_configuration"
+              action="act_hr_bonus_type"
+              sequence="3"/>
 </odoo>

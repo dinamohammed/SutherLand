@@ -115,12 +115,21 @@ class HRPenaltyType(models.Model):
     penalty_categ_id = fields.Many2one(comodel_name="hr.penalty.categ", string="Penalty Category", required=True)
     code = fields.Char(string="Code", required=True, )
 
+    _sql_constraints = [
+        ('name_uniq', 'unique (name)', "A penalty type with the same name already exists."),
+        ('code_uniq', 'unique (code)', "A penalty type with the same code already exists."),
+    ]
+
 
 class HRPenaltyCategory(models.Model):
     _name = 'hr.penalty.categ'
     _description = 'HR Penalty Category'
 
     name = fields.Char(string="Name")
+
+    _sql_constraints = [
+        ('name_uniq', 'unique (name)', "A category with the same name already exists."),
+    ]
 
 
 class HRTotalPenalty(models.Model):
