@@ -87,5 +87,14 @@ class HrEmployeeInherit(models.Model):
 	# 	# ids = values
 	# 	# print("Contract Ids:: ", payslip_ids)
 	# 	return [('id', 'in', payslip_ids)]
+	organization_unit = fields.Many2one(comodel_name='hr.organization.unit', string="Organization Unit")
+
+
+class HrOrganizationUnit(models.Model):
+	_name = "hr.organization.unit"
+	_description = "Hr Organization Unit"
+
+	name = fields.Char(string="Name", required=True)
+	code = fields.Char(string="Code")
 
 # Ahmed Salama Code End.
