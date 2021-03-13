@@ -41,6 +41,7 @@
                 <xpath expr="/form/sheet/group/group[1]/field[@name='work_location']" position="replace">
 <!--                    <field name="employee_no"/>-->
                     <field name="work_location_id"/>
+                    <field name="organization_unit"/>
                     <field name="insurance_type" widget="radio" options="{'horizontal': true}"/>
                     <field name="employee_status"/>
                 </xpath>
