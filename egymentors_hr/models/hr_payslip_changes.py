@@ -1,10 +1,12 @@
 # -*- coding: utf-8 -*-
 import base64
+import datetime
 
 from odoo import models, fields, api, _
-from odoo.exceptions import Warning, UserError, ValidationError
-from odoo.tools import float_compare, float_is_zero
+from odoo.exceptions import ValidationError
 from odoo.tools.safe_eval import safe_eval
+from datetime import datetime
+from collections import namedtuple
 
 
 class HrPayslipInherit(models.Model):
@@ -51,12 +53,25 @@ class HrPayslipInherit(models.Model):
     def _get_hr_penalties(self):
         penalty_line_obj = self.env['hr.penalty.line']
         for payslip in self:
-            domain = [('employee_id', '=', payslip.employee_id.id), ('state', '=', 'confirm')]
-            if payslip.date_from:
-                domain.append(('date', '>=', payslip.date_from))
-            if payslip.date_to:
-                domain.append(('date', '<=', payslip.date_to))
-            penalty_line_ids = penalty_line_obj.search(domain).mapped('id')
+            Range = namedtuple('Range', ['start', 'end'])
+            range_1 = Range(
+                start=datetime(payslip.date_from.year, payslip.date_from.month, payslip.date_from.day),
+                end=datetime(payslip.date_to.year, payslip.date_to.month, payslip.date_to.day)
+            )
+            domain = ['|', ('date', '!=', False), ('date_to', '!=', False),
+                      ('employee_id', '=', payslip.employee_id.id), ('state', '=', 'confirm')]
+            penalties = penalty_line_obj.search(domain)
+            penalty_line_ids = []
+            for p_line in penalties:
+                if p_line.date and p_line.date_to:
+                    range_2 = Range(start=datetime(p_line.date.year, p_line.date.month, p_line.date.day),
+                                    end=datetime(p_line.date_to.year, p_line.date_to.month, p_line.date_to.day))
+                    latest_start = max(range_1.start, range_2.start)
+                    earliest_end = min(range_1.end, range_2.end)
+                    delta = (earliest_end - latest_start).days + 1
+                    overlap = max(0, delta)
+                    if overlap > 0:
+                        penalty_line_ids.append(p_line.id)
             payslip.write({'hr_penalty_line_ids': [(6, 0, penalty_line_ids)]})
             if payslip.id or payslip._origin.id:
                 self.compute_total_penalty(value=self)

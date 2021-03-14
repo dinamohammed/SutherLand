@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 from odoo import models, fields, api, _
+from odoo.exceptions import ValidationError
 
 _STATES = [('draft', 'Draft'), ('confirm', 'Confirmed'), ('done', 'Done'), ('cancel', 'Cancelled')]
 
@@ -9,7 +10,7 @@ class HRBonus(models.Model):
     _description = 'HR Bonus'
     _inherit = ['mail.thread', 'image.mixin']
 
-    name = fields.Char(string="Name", translate=True)
+    name = fields.Char(string="Name", translate=True, required=True)
     bonus_categ_id = fields.Many2one(comodel_name="hr.bonus.categ", string="Bonus Category")
     date = fields.Date(string="Date", default=fields.Date.today(), readonly=True,
                        states={'draft': [('readonly', False)]})
@@ -58,7 +59,10 @@ class HRBonus(models.Model):
         """
         self.write({'state': state})
         for line in self.bonus_line_ids:
-            line.write({'state': state})
+            line.write({
+                'state': state,
+                'name': 'Bonus Line: ' + self.name,
+            })
 
     def action_print_report(self):
         """
@@ -79,7 +83,7 @@ class HRBonus(models.Model):
         """
         for rec in self:
             if rec.state == 'confirm':
-                raise Warning(_("You can't delete confirmed records!!!"))
+                raise ValidationError(_("You can't delete confirmed records!!!"))
         return super(HRBonus, self).unlink()
 
     def action_reset(self):
@@ -112,7 +116,7 @@ class HRBonusType(models.Model):
     _name = 'hr.bonus.type'
     _description = 'HR Bonus Type'
 
-    name = fields.Char(string="Name")
+    name = fields.Char(string="Name", required=True)
     bonus_categ_id = fields.Many2one(comodel_name="hr.bonus.categ", string="Bonus Category", required=True)
     code = fields.Char(string="Code", required=True, )
 
@@ -126,7 +130,7 @@ class HRBonusCategory(models.Model):
     _name = 'hr.bonus.categ'
     _description = 'HR Bonus Category'
 
-    name = fields.Char(string="Name")
+    name = fields.Char(string="Name", required=True)
 
     _sql_constraints = [
         ('name_uniq', 'unique (name)', "A category with the same name already exists."),
@@ -138,7 +142,7 @@ class HRTotalBonus(models.Model):
     _description = 'New Description'
     _order = "bonus_type_id, method"
 
-    name = fields.Char()
+    name = fields.Char(string="Name", required=True)
     bonus_id = fields.Many2one(comodel_name='hr.bonus', string="Bonus", ondelete='cascade')
     payslip_id = fields.Many2one(comodel_name='hr.payslip', string="Payslip")
     method = fields.Selection(string="Method", selection=[('gross', 'Gross'), ('net', 'Net')], required=True,
