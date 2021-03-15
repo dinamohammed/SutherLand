@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 from odoo import models, fields, api, _
+from odoo.exceptions import ValidationError
 
 _STATES = [('draft', 'Draft'), ('confirm', 'Confirmed'), ('done', 'Done'), ('cancel', 'Cancelled')]
 
@@ -9,7 +10,7 @@ class HRPenalty(models.Model):
     _description = 'HR Penalty'
     _inherit = ['mail.thread', 'image.mixin']
 
-    name = fields.Char(string="Name", translate=True)
+    name = fields.Char(string="Name", translate=True, required=True)
     penalty_categ_id = fields.Many2one(comodel_name="hr.penalty.categ", string="Penalty Category")
     date = fields.Date(string="Date", default=fields.Date.today(), readonly=True,
                        states={'draft': [('readonly', False)]})
@@ -59,7 +60,10 @@ class HRPenalty(models.Model):
         """
         self.write({'state': state})
         for line in self.penalty_line_ids:
-            line.write({'state': state})
+            line.write({
+                'state': state,
+                'name': 'Penalty Line: ' + self.name,
+            })
 
     def action_print_report(self):
         """
@@ -80,7 +84,7 @@ class HRPenalty(models.Model):
         """
         for rec in self:
             if rec.state == 'confirm':
-                raise Warning(_("You can't delete confirmed records!!!"))
+                raise ValidationError(_("You can't delete confirmed records!!!"))
         return super(HRPenalty, self).unlink()
 
     def action_reset(self):
@@ -99,7 +103,8 @@ class HRPenaltyLine(models.Model):
     name = fields.Char(string="Name")
     penalty_id = fields.Many2one(comodel_name='hr.penalty', string="Penalty")
     payslip_id = fields.Many2one(comodel_name='hr.payslip', string="Payslip")
-    date = fields.Date(related='penalty_id.date')
+    date = fields.Date(related='penalty_id.date', store=True)
+    date_to = fields.Date(related='penalty_id.date_to', store=True)
     employee_id = fields.Many2one(comodel_name='hr.employee', string="Employee", required=True)
     penalty_type_id = fields.Many2one(comodel_name='hr.penalty.type', string="Type", required=True)
     amount = fields.Float(string="Amount")
@@ -111,7 +116,7 @@ class HRPenaltyType(models.Model):
     _name = 'hr.penalty.type'
     _description = 'HR Penalty Type'
 
-    name = fields.Char(string="Name")
+    name = fields.Char(string="Name", required=True)
     penalty_categ_id = fields.Many2one(comodel_name="hr.penalty.categ", string="Penalty Category", required=True)
     code = fields.Char(string="Code", required=True, )
 
@@ -125,7 +130,11 @@ class HRPenaltyCategory(models.Model):
     _name = 'hr.penalty.categ'
     _description = 'HR Penalty Category'
 
-    name = fields.Char(string="Name")
+    name = fields.Char(string="Name", required=True)
+
+    _sql_constraints = [
+        ('name_uniq', 'unique (name)', "A category with the same name already exists."),
+    ]
 
     _sql_constraints = [
         ('name_uniq', 'unique (name)', "A category with the same name already exists."),
