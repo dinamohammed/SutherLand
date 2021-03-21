@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
+
     <record id="view_hr_payslip_form_inherit" model="ir.ui.view">
         <field name="name">hr.payslip.form.inherit</field>
         <field name="model">hr.payslip</field>
@@ -7,60 +8,47 @@
         <field name="arch" type="xml">
             <xpath expr="//notebook" position="inside">
                 <page name="bonuses" string="Bonuses">
-                    <field name="hr_bonus_ids"
-                           context="{'employee_id':employee_id, 'extra_type':'bonus'}">
-                        <tree create="0">
-                            <field name="bonus_penalty_id" string="Bonus"/>
+                    <field name="hr_bonus_line_ids" context="{'employee_id':employee_id}" style="pointer-events:none;">
+                        <tree delete="0" edit="0" create="0">
+                            <field name="bonus_id" string="Bonus"/>
                             <field name="date"/>
-                            <field name="type_id" domain="[('extra_type','=','bonus')]"/>
+                            <field name="bonus_type_id"/>
+                            <field name="method"/>
                             <field name="amount"/>
                             <field name="notes"/>
                         </tree>
                     </field>
-                    <group class="oe_right">
-                        <group class="oe_subtotal_footer">
-                            <field name="total_bonus_production" widget="monetary"/>
-                            <field name="total_bonus_leadership" widget="monetary"/>
-                            <field name="total_bonus_workshop" widget="monetary"/>
-                            <field name="total_bonus_direction" widget="monetary"/>
-
-                            <field name="total_bonuses_allowance" widget="monetary" class="oe_subtotal_footer_separator"/>
-
-                            <field name="total_bonus_amount_vpp" widget="monetary"/>
-                            <field name="total_bonus_comp_off_site" widget="monetary"/>
-                            <field name="total_bonus_comp_off_home" widget="monetary"/>
-                            <field name="total_bonus_overtime_site" widget="monetary"/>
-                            <field name="total_bonus_overtime_home" widget="monetary"/>
-                            <field name="total_bonus_vpp" widget="monetary"/>
-                            <field name="total_bonus_ramadan" widget="monetary"/>
-                            <field name="total_bonus_other" widget="monetary"/>
-                            <field name="total_bonus_night_shift" widget="monetary"/>
-                            <field name="total_bonus_leave_balance" widget="monetary"/>
-
-                            <field name="total_bonuses_rewards" widget="monetary" class="oe_subtotal_footer_separator"/>
-
-                            <field name="total_bonuses" widget="monetary" class="oe_subtotal_footer_separator"/>
+                    <group>
+                        <group class="oe_right oe_subtotal_footer" string="Total">
+                            <field name="total_bonus_ids" nolabel="1">
+                                <tree delete="0" create="0">
+                                    <field name="bonus_type_id" class="font-weight-bold"/>
+                                    <field name="method"/>
+                                    <field name="total" sum="Total"/>
+                                </tree>
+                            </field>
                         </group>
                     </group>
                 </page>
                 <page name="penalties" string="Penalties">
-                    <field name="hr_penalty_ids"
-                           context="{'employee_id':employee_id, 'extra_type':'penalty'}">
-                        <tree create="0">
-                            <field name="bonus_penalty_id" string="Penalty"/>
+                    <field name="hr_penalty_line_ids" context="{'employee_id':employee_id}"
+                           style="pointer-events:none;">
+                        <tree delete="0" create="0" edit="0">
+                            <field name="penalty_id" string="Penalty"/>
                             <field name="date"/>
-                            <field name="type_id" domain="[('extra_type','=','penalty')]"/>
-                            <field name="days_num" sum="total"/>
+                            <field name="penalty_type_id"/>
+                            <field name="amount" sum="total"/>
                             <field name="notes"/>
                         </tree>
                     </field>
-                    <group class="oe_right">
-                        <group class="oe_subtotal_footer">
-                            <field name="total_penalty_absence" widget="monetary"/>
-                            <field name="total_penalty_ramadan" widget="monetary"/>
-                            <field name="total_penalty_advanced" widget="monetary"/>
-                            <field name="total_penalty_other" widget="monetary"/>
-                            <field name="total_penalties" widget="monetary" class="oe_subtotal_footer_separator"/>
+                    <group>
+                        <group class="oe_right oe_subtotal_footer" string="Total">
+                            <field name="total_penalty_ids" nolabel="1">
+                                <tree delete="0" create="0">
+                                    <field name="penalty_type_id" class="font-weight-bold"/>
+                                    <field name="total" sum="Total"/>
+                                </tree>
+                            </field>
                         </group>
                     </group>
                 </page>
@@ -86,7 +74,7 @@
                 <!--                </page>-->
                 <page name="award_profit" string="Award Profit">
                     <field name="hr_award_profit_ids">
-                        <tree create="0">
+                        <tree delete="0" create="0" edit="0">
                             <field name="extra_type"/>
                             <field name="amount" sum="amount_sum"/>
                             <field name="notes"/>
@@ -105,6 +93,7 @@
 
         </field>
     </record>
+
     <record id="hr_payslip_run_form_inherit" model="ir.ui.view">
         <field name="name">hr.payslip.run.form.inherit</field>
         <field name="model">hr.payslip.run</field>
@@ -123,4 +112,5 @@
 
         </field>
     </record>
+
 </odoo>
