@@ -40,6 +40,7 @@ class HRPenalty(models.Model):
                 val = []
                 for total in grp_penalty_lines:
                     val.append((0, 0, {
+                        'name': 'Total Penalty: ' + rec.name,
                         'penalty_id': rec._origin.id,
                         'penalty_type_id': total['penalty_type_id'][0],
                         'total': total['amount'],

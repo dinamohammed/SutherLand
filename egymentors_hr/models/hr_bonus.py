@@ -38,6 +38,7 @@ class HRBonus(models.Model):
                 val = []
                 for total in grp_bonus_lines:
                     val.append((0, 0, {
+                        'name': 'Total Bonus: ' + rec.name,
                         'bonus_id': rec._origin.id,
                         'bonus_type_id': total['bonus_type_id'][0],
                         'method': total['method'],
