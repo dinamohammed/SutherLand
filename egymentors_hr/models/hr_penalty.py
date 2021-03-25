@@ -46,6 +46,8 @@ class HRPenalty(models.Model):
                         'total': total['amount'],
                     }))
                 rec.total_penalty_ids = val
+                if not rec.fixed_amount:
+                    rec.date_to = rec.date
 
     def action_confirm(self):
         """
