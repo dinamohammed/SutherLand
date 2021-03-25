@@ -139,6 +139,7 @@ class HrPayslipInherit(models.Model):
                 total_list = []
                 for total in grp_bonus_lines:
                     total_list.append((0, 0, {
+                        'name': 'Payslip Total Bonus for: ' + payslip.name,
                         'payslip_id': payslip_id,
                         'bonus_id': total['bonus_id'][0],
                         'bonus_type_id': total['bonus_type_id'][0],
@@ -172,6 +173,7 @@ class HrPayslipInherit(models.Model):
                 total_list = []
                 for total in grp_penalty_lines:
                     total_list.append((0, 0, {
+                        'name': 'Payslip Total Penalty for: ' + payslip.name,
                         'payslip_id': payslip_id,
                         'penalty_id': total['penalty_id'][0],
                         'penalty_type_id': total['penalty_type_id'][0],
