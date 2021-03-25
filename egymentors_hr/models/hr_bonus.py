@@ -38,6 +38,7 @@ class HRBonus(models.Model):
                 val = []
                 for total in grp_bonus_lines:
                     val.append((0, 0, {
+                        'name': 'Total Bonus: ' + rec.name,
                         'bonus_id': rec._origin.id,
                         'bonus_type_id': total['bonus_type_id'][0],
                         'method': total['method'],
@@ -153,3 +154,10 @@ class HRTotalBonus(models.Model):
                               default='gross')
     bonus_type_id = fields.Many2one(comodel_name='hr.bonus.type', string="Bonus Type", required=True)
     total = fields.Float(string="Total")
+
+
+class HRBonusPenaltyType(models.Model):
+    _name = 'hr.bonus.penalty.type'
+    _description = 'HR Bonus Penalty Type'
+
+    name = fields.Char(string="Name")
